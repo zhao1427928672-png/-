@@ -671,6 +671,11 @@ function getDeviceId() {
   return id;
 }
 
+// ===== 离线检测 =====
+function isOnline() {
+  return navigator.onLine !== false;
+}
+
 async function checkDeviceBinding() {
   try {
     const did = getDeviceId();
@@ -786,9 +791,27 @@ async function syncFromCloud(isInit) {
       return true;
     });
 
-    // 合并用户
-    localOnlyUsers = users.filter(u => !newUsers.find(nu => nu.id === u.id));
-    users = [...newUsers, ...localOnlyUsers];
+    // 合并用户：按用户名合并，保留本地用户ID（记录依赖它）
+    const nameToLocalUser = {};
+    users.forEach(u => { nameToLocalUser[u.name] = u; });
+    const mergedUsers = [];
+    const seenNames = new Set();
+    newUsers.forEach(nu => {
+      const local = nameToLocalUser[nu.name];
+      if (local) {
+        // 本地已有同名用户 → 保留本地 id，更新颜色
+        local.color = nu.color;
+        mergedUsers.push(local);
+      } else {
+        mergedUsers.push(nu);
+      }
+      seenNames.add(nu.name);
+    });
+    // 加入云端没有的本地用户
+    users.forEach(u => {
+      if (!seenNames.has(u.name)) mergedUsers.push(u);
+    });
+    users = mergedUsers;
 
     saveData();
     updateUserBar();
@@ -928,7 +951,12 @@ async function init(){
   bindEvents();
 
   // 先尝试从云端同步，同步完成后再决定是否弹窗
-  await syncFromCloud(true);
+  // 如果离线，跳过同步直接显示本地数据
+  if (isOnline()) {
+    await syncFromCloud(true);
+  } else {
+    setSyncStatus('offline', '离线');
+  }
 
   if(users.length === 0){
     showUserModal();
@@ -1069,7 +1097,7 @@ async function deleteUser(userId){
     for (const r of userRecords) {
       if (r.cloudId) await sbDelete('vision_records', { id: r.cloudId });
     }
-    await sbDelete('vision_users', { user_name: userId });
+    await sbDelete('vision_users', { user_name: user.name });
   } catch(e) { console.error('Cloud delete user:', e); }
 
   records = records.filter(r => r.userId !== userId);
@@ -1287,7 +1315,7 @@ async function submitRecord(){
     document.getElementById('f-after').value = '';
     document.getElementById('f-notes').value = '';
     document.querySelectorAll('.acuity-cell').forEach(c => c.classList.remove('selected'));
-    document.querySelectorAll('#f-weather .chip, #f-light .chip, #f-practiced .chip, #f-fatigue .chip, #f-clarity .chip, #f-reaction .chip').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#f-reaction .chip').forEach(c => c.classList.remove('selected'));
     setDefaultForm();
   }, 500);
 
