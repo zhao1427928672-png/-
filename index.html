@@ -643,7 +643,7 @@ async function syncFromCloud() {
     // 转换云端用户格式 → 本地格式
     const newUsers = cloudUsers.map(u => ({
       id: u.user_name.startsWith('u_') ? u.user_name : 'u_' + u.id,
-      name: u.user_name.replace(/^u_/, ''),
+      name: u.user_name.startsWith('u_') ? u.user_name.replace(/^u_/, '') : u.user_name,
       color: u.user_color || '#5b9bf0',
       created: u.created_at,
     }));
@@ -652,7 +652,7 @@ async function syncFromCloud() {
     const newRecords = cloudRecords.map(r => ({
       id: r.id,
       userId: r.user_name.startsWith('u_') ? r.user_name : 'u_' + r.id,
-      userName: r.user_name.replace(/^u_/, ''),
+      userName: r.user_name.startsWith('u_') ? r.user_name.replace(/^u_/, '') : r.user_name,
       userColor: r.user_color || '#5b9bf0',
       date: r.record_date,
       time: r.record_time || '',
@@ -715,28 +715,28 @@ async function syncFromCloud() {
 }
 
 async function pushRecordToCloud(record) {
-  // 先检查用户是否在云端存在
-  const userNameWithPrefix = record.userId;
-  let cloudUser = await sbSelect('vision_users', { user_name: `eq.${userNameWithPrefix}`, select: '*', limit: '1' });
+  // 先检查用户是否在云端存在（用真名查找）
+  const displayName = record.userName || record.userId.replace(/^u_/, '');
+  let cloudUser = await sbSelect('vision_users', { user_name: `eq.${displayName}`, select: '*', limit: '1' });
 
   if (cloudUser.length === 0) {
     // 创建用户
     await sbInsert('vision_users', {
-      user_name: userNameWithPrefix,
+      user_name: displayName,
       user_color: record.userColor,
     });
   }
 
   // 检查是否已有该日期的记录
   const existing = await sbSelect('vision_records', {
-    user_name: `eq.${userNameWithPrefix}`,
+    user_name: `eq.${displayName}`,
     record_date: `eq.${record.date}`,
     select: 'id',
     limit: '1'
   });
 
   const dbRecord = {
-    user_name: userNameWithPrefix,
+    user_name: displayName,
     user_color: record.userColor,
     record_date: record.date,
     record_time: record.time || null,
@@ -916,10 +916,10 @@ async function addUser(name, color){
   updateUserBar(); renderUserOptions(); renderUserList();
   setDefaultForm(); renderHistory(); renderChart();
 
-  // 同步用户到云端
+  // 同步用户到云端 — 存真名 + userId 作为唯一标识
   try {
     await sbInsert('vision_users', {
-      user_name: userId,
+      user_name: name.trim(),
       user_color: color,
     });
     showToast(`用户「${name}」已添加`);
