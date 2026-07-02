@@ -553,64 +553,96 @@ let selectedColor = '#5b9bf0';
 let historyFilter = 'all';
 let chartFilter = 'all';
 let isSyncing = false;
+let retryTimer = null;
 
 // ===== Supabase REST API =====
+async function fetchWithTimeout(url, options, timeout = 12000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+  try {
+    const res = await fetch(url, { ...options, signal: controller.signal });
+    return res;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function sbSelect(table, params = {}) {
   const url = new URL(`${SUPABASE_URL}/rest/v1/${table}`);
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-  const res = await fetch(url, {
+  const res = await fetchWithTimeout(url, {
     headers: {
       'apikey': SUPABASE_KEY,
       'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Accept': 'application/json',
     }
   });
-  if (!res.ok) throw new Error(`Supabase ${table}: ${res.status}`);
+  if (!res.ok) {
+    let body = '';
+    try { body = await res.text(); } catch(e) {}
+    throw new Error(`Supabase ${table}: ${res.status}${body ? ' — ' + body.slice(0,80) : ''}`);
+  }
   return res.json();
 }
 
 async function sbInsert(table, data) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+  const res = await fetchWithTimeout(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: 'POST',
     headers: {
       'apikey': SUPABASE_KEY,
       'Authorization': `Bearer ${SUPABASE_KEY}`,
       'Content-Type': 'application/json',
+      'Accept': 'application/json',
       'Prefer': 'return=representation',
     },
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error(`Supabase insert ${table}: ${res.status}`);
+  if (!res.ok) {
+    let body = '';
+    try { body = await res.text(); } catch(e) {}
+    throw new Error(`Supabase insert ${table}: ${res.status}${body ? ' — ' + body.slice(0,80) : ''}`);
+  }
   return res.json();
 }
 
 async function sbUpdate(table, data, filter) {
   const url = new URL(`${SUPABASE_URL}/rest/v1/${table}`);
   Object.entries(filter).forEach(([k, v]) => url.searchParams.set(k, `eq.${v}`));
-  const res = await fetch(url, {
+  const res = await fetchWithTimeout(url, {
     method: 'PATCH',
     headers: {
       'apikey': SUPABASE_KEY,
       'Authorization': `Bearer ${SUPABASE_KEY}`,
       'Content-Type': 'application/json',
+      'Accept': 'application/json',
       'Prefer': 'return=representation',
     },
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error(`Supabase update ${table}: ${res.status}`);
+  if (!res.ok) {
+    let body = '';
+    try { body = await res.text(); } catch(e) {}
+    throw new Error(`Supabase update ${table}: ${res.status}${body ? ' — ' + body.slice(0,80) : ''}`);
+  }
   return res.json();
 }
 
 async function sbDelete(table, filter) {
   const url = new URL(`${SUPABASE_URL}/rest/v1/${table}`);
   Object.entries(filter).forEach(([k, v]) => url.searchParams.set(k, `eq.${v}`));
-  const res = await fetch(url, {
+  const res = await fetchWithTimeout(url, {
     method: 'DELETE',
     headers: {
       'apikey': SUPABASE_KEY,
       'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Accept': 'application/json',
     }
   });
-  if (!res.ok) throw new Error(`Supabase delete ${table}: ${res.status}`);
+  if (!res.ok) {
+    let body = '';
+    try { body = await res.text(); } catch(e) {}
+    throw new Error(`Supabase delete ${table}: ${res.status}${body ? ' — ' + body.slice(0,80) : ''}`);
+  }
   return true;
 }
 
@@ -704,12 +736,28 @@ async function syncFromCloud(isInit) {
     renderChart();
     renderUserList();
 
+    // 清除旧的重试定时器
+    if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
+
     setSyncStatus('synced', '已同步');
     updateLastSyncTime();
   } catch (err) {
     console.error('Sync error:', err);
+    const msg = err.message || '连接超时';
     setSyncStatus('error', '同步失败');
-    showToast('云端同步失败，使用本地数据', 'error');
+    // 显示具体错误信息方便排查
+    const statusEl = document.getElementById('sync-status');
+    let detailEl = statusEl.querySelector('.error-detail');
+    if (!detailEl) {
+      detailEl = document.createElement('span');
+      detailEl.className = 'error-detail';
+      detailEl.style.cssText = 'display:block;font-size:0.65rem;opacity:0.6;margin-top:2px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+      statusEl.appendChild(detailEl);
+    }
+    detailEl.textContent = msg.slice(0, 60);
+    showToast('云端同步失败，稍后自动重试', 'error');
+    // 30秒后自动重试
+    retryTimer = setTimeout(() => syncFromCloud(false), 30000);
   } finally {
     isSyncing = false;
   }
