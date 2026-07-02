@@ -545,6 +545,7 @@ const ACUITY_DATA = [
 const STORAGE_KEY = 'vision_tracker_v3';
 const USERS_KEY = 'vision_tracker_users_v3';
 const CURRENT_USER_KEY = 'vision_tracker_current_user_v3';
+const DEVICE_ID_KEY = 'vision_tracker_device_id_v1';
 
 let records = [];
 let users = [];
@@ -658,6 +659,54 @@ function updateLastSyncTime() {
   const t = `${now.getMonth()+1}/${now.getDate()} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
   const el = document.getElementById('last-sync-time');
   if (el) el.textContent = t;
+}
+
+// ===== 设备识别 =====
+function getDeviceId() {
+  let id = localStorage.getItem(DEVICE_ID_KEY);
+  if (!id) {
+    id = 'd_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    localStorage.setItem(DEVICE_ID_KEY, id);
+  }
+  return id;
+}
+
+async function checkDeviceBinding() {
+  try {
+    const did = getDeviceId();
+    const rows = await sbSelect('device_bindings', {
+      device_id: `eq.${did}`,
+      select: '*',
+      order: 'last_used.desc',
+      limit: '1'
+    });
+    if (rows.length > 0) return rows[0].user_name;
+  } catch (e) { /* 静默失败，不影响流程 */ }
+  return null;
+}
+
+async function saveDeviceBinding(userName) {
+  try {
+    const did = getDeviceId();
+    // 检查是否已有绑定
+    const existing = await sbSelect('device_bindings', {
+      device_id: `eq.${did}`,
+      user_name: `eq.${userName}`,
+      select: 'id',
+      limit: '1'
+    });
+    if (existing.length > 0) {
+      // 更新最后使用时间
+      await sbUpdate('device_bindings', { last_used: new Date().toISOString() }, { id: existing[0].id });
+    } else {
+      // 新增绑定
+      await sbInsert('device_bindings', {
+        device_id: did,
+        user_name: userName,
+        last_used: new Date().toISOString()
+      });
+    }
+  } catch (e) { /* 静默失败 */ }
 }
 
 // ===== 云端同步 =====
@@ -877,7 +926,20 @@ async function init(){
     if(saved && users.find(u => u.id === saved)){
       currentUserId = saved;
     }else{
-      currentUserId = users[0].id;
+      // 尝试设备绑定：从云端查找此设备绑定的用户
+      const boundName = await checkDeviceBinding();
+      if (boundName) {
+        const matched = users.find(u => u.name === boundName);
+        if (matched) {
+          currentUserId = matched.id;
+        }
+      }
+      // 仍然没找到，取第一个用户
+      if (!currentUserId) {
+        currentUserId = users[0].id;
+      }
+      // 保存到 localStorage，下次优先用
+      localStorage.setItem(CURRENT_USER_KEY, currentUserId);
     }
     updateUserBar();
   }
@@ -931,6 +993,9 @@ function renderUserOptions(){
       currentUserId = el.dataset.userId;
       updateUserBar(); saveData(); hideUserModal();
       setDefaultForm(); renderHistory(); renderChart();
+      // 保存设备绑定
+      const user = users.find(u => u.id === currentUserId);
+      if (user) saveDeviceBinding(user.name);
     });
   });
 }
@@ -965,7 +1030,7 @@ async function addUser(name, color){
   updateUserBar(); renderUserOptions(); renderUserList();
   setDefaultForm(); renderHistory(); renderChart();
 
-  // 同步用户到云端 — 存真名 + userId 作为唯一标识
+  // 同步用户到云端 — 存真名
   try {
     await sbInsert('vision_users', {
       user_name: name.trim(),
@@ -976,6 +1041,9 @@ async function addUser(name, color){
     // 可能已存在，忽略
     showToast(`用户「${name}」已添加`);
   }
+
+  // 保存设备绑定
+  saveDeviceBinding(name.trim());
 }
 
 async function deleteUser(userId){
