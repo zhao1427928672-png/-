@@ -629,10 +629,11 @@ function updateLastSyncTime() {
 }
 
 // ===== 云端同步 =====
-async function syncFromCloud() {
+async function syncFromCloud(isInit) {
   if (isSyncing) return;
   isSyncing = true;
-  setSyncStatus('syncing', '同步中...');
+  if (!isInit) setSyncStatus('syncing', '同步中...');
+  else setSyncStatus('syncing', '加载中...');
 
   try {
     // 拉取用户
@@ -811,12 +812,15 @@ function getColors(){
 }
 
 // ===== 初始化 =====
-function init(){
+async function init(){
   loadData();
   buildAcuityGrid('acuity-grid','both');
   buildAcuityGrid('acuity-grid-left','left');
   buildAcuityGrid('acuity-grid-right','right');
   bindEvents();
+
+  // 先尝试从云端同步，同步完成后再决定是否弹窗
+  await syncFromCloud(true);
 
   if(users.length === 0){
     showUserModal();
@@ -835,16 +839,13 @@ function init(){
   renderChart();
   renderUserList();
 
-  // 从云端同步
-  syncFromCloud();
-
   // 监听主题变化
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
     renderChart();
   });
 
-  // 每 60 秒自动同步一次
-  setInterval(() => { syncFromCloud(); }, 60000);
+  // 每 5 分钟自动同步一次
+  setInterval(() => { syncFromCloud(); }, 300000);
 }
 
 function loadData(){
