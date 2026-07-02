@@ -730,11 +730,21 @@ async function syncFromCloud(isInit) {
       created: u.created_at,
     }));
 
+    // 建立用户名 → 用户ID 的映射（用于记录匹配）
+    const userNameToId = {};
+    newUsers.forEach(u => { userNameToId[u.name] = u.id; });
+    // 也加入已有的本地用户
+    users.forEach(u => { userNameToId[u.name] = u.id; });
+
     // 转换云端记录格式 → 本地格式
-    const newRecords = cloudRecords.map(r => ({
+    const newRecords = cloudRecords.map(r => {
+      const name = r.user_name.startsWith('u_') ? r.user_name.replace(/^u_/, '') : r.user_name;
+      // 根据用户名找到正确的 userId，找不到才 fallback
+      const matchedUserId = userNameToId[name] || (r.user_name.startsWith('u_') ? r.user_name : 'u_' + r.id);
+      return {
       id: r.id,
-      userId: r.user_name.startsWith('u_') ? r.user_name : 'u_' + r.id,
-      userName: r.user_name.startsWith('u_') ? r.user_name.replace(/^u_/, '') : r.user_name,
+      userId: matchedUserId,
+      userName: name,
       userColor: r.user_color || '#5b9bf0',
       date: r.record_date,
       time: r.record_time || '',
@@ -755,7 +765,8 @@ async function syncFromCloud(isInit) {
       reaction: r.body_reactions ? r.body_reactions.split(',').filter(Boolean) : [],
       notes: r.notes || '',
       cloudId: r.id,
-    }));
+    };
+  });
 
     // 合并：云端优先，但保留本地未同步的记录
     const localOnlyRecords = records.filter(r => !r.cloudId);
