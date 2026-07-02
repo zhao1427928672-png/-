@@ -2,158 +2,274 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <title>九阳炼目 · 视力追踪</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
+/* ═══ 自适应明暗主题 ═══ */
 :root{
-  --bg:#0f1115;--card:#1a1d24;--border:#2a2e38;--text:#e8eaed;--dim:#8b919e;
-  --accent:#5b9bf0;--accent2:#7c3aed;--green:#22c55e;--yellow:#eab308;
-  --red:#ef4444;--blue:#3b82f6;--teal:#14b8a6;--orange:#f97316;--pink:#ec4899;
-  --radius:12px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC",sans-serif;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC",sans-serif;
+  --radius:14px;
+  --radius-sm:10px;
+  --transition:0.2s ease;
 }
-html,body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased}
-body{min-height:100vh;padding:16px;max-width:900px;margin:0 auto}
+/* 暗色（默认） */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0f1115;--bg-soft:#161920;--card:#1a1d24;--card-hover:#1f232c;
+    --border:#2a2e38;--border-hover:#3a3f4d;
+    --text:#e8eaed;--text-secondary:#b4b8c2;--dim:#8b919e;
+    --accent:#5b9bf0;--accent-soft:#5b9bf020;
+    --accent2:#7c3aed;--green:#22c55e;--yellow:#eab308;
+    --red:#ef4444;--blue:#3b82f6;--teal:#14b8a6;--orange:#f97316;--pink:#ec4899;
+    --input-bg:#111317;--shadow:0 2px 8px rgba(0,0,0,0.3);
+    --tab-inactive:#1a1d24;
+  }
+}
+/* 亮色 */
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f5f6f8;--bg-soft:#ffffff;--card:#ffffff;--card-hover:#f0f2f5;
+    --border:#e2e5ea;--border-hover:#c8ccd4;
+    --text:#1a1d24;--text-secondary:#4a4f5a;--dim:#8b919e;
+    --accent:#2563eb;--accent-soft:#2563eb15;
+    --accent2:#7c3aed;--green:#16a34a;--yellow:#ca8a04;
+    --red:#dc2626;--blue:#2563eb;--teal:#0d9488;--orange:#ea580c;--pink:#db2777;
+    --input-bg:#f8f9fb;--shadow:0 1px 3px rgba(0,0,0,0.08);
+    --tab-inactive:#e8eaed;
+  }
+}
+/* 不支持 prefers-color-scheme 的回退（默认暗色） */
+:root{
+  --bg:#0f1115;--bg-soft:#161920;--card:#1a1d24;--card-hover:#1f232c;
+  --border:#2a2e38;--border-hover:#3a3f4d;
+  --text:#e8eaed;--text-secondary:#b4b8c2;--dim:#8b919e;
+  --accent:#5b9bf0;--accent-soft:#5b9bf020;
+  --accent2:#7c3aed;--green:#22c55e;--yellow:#eab308;
+  --red:#ef4444;--blue:#3b82f6;--teal:#14b8a6;--orange:#f97316;--pink:#ec4899;
+  --input-bg:#111317;--shadow:0 2px 8px rgba(0,0,0,0.3);
+  --tab-inactive:#1a1d24;
+}
+@supports (color-scheme: light dark){
+  :root{ color-scheme: light dark; }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f1115;--bg-soft:#161920;--card:#1a1d24;--card-hover:#1f232c;
+      --border:#2a2e38;--border-hover:#3a3f4d;
+      --text:#e8eaed;--text-secondary:#b4b8c2;--dim:#8b919e;
+      --accent:#5b9bf0;--accent-soft:#5b9bf020;
+      --accent2:#7c3aed;--green:#22c55e;--yellow:#eab308;
+      --red:#ef4444;--blue:#3b82f6;--teal:#14b8a6;--orange:#f97316;--pink:#ec4899;
+      --input-bg:#111317;--shadow:0 2px 8px rgba(0,0,0,0.3);
+      --tab-inactive:#1a1d24;
+    }
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#f5f6f8;--bg-soft:#ffffff;--card:#ffffff;--card-hover:#f0f2f5;
+      --border:#e2e5ea;--border-hover:#c8ccd4;
+      --text:#1a1d24;--text-secondary:#4a4f5a;--dim:#8b919e;
+      --accent:#2563eb;--accent-soft:#2563eb15;
+      --accent2:#7c3aed;--green:#16a34a;--yellow:#ca8a04;
+      --red:#dc2626;--blue:#2563eb;--teal:#0d9488;--orange:#ea580c;--pink:#db2777;
+      --input-bg:#f8f9fb;--shadow:0 1px 3px rgba(0,0,0,0.08);
+      --tab-inactive:#e8eaed;
+    }
+  }
+}
 
-/* Header */
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:0 4px;flex-wrap:wrap;gap:8px}
-.header h1{font-size:1.3rem;font-weight:700;letter-spacing:-0.02em}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:env(safe-area-inset-bottom)}
+
+/* ═══ Header ═══ */
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:0 4px;flex-wrap:wrap;gap:8px}
+.header h1{font-size:1.25rem;font-weight:700;letter-spacing:-0.02em}
 .header h1 span{color:var(--accent)}
-.header .subtitle{font-size:0.75rem;color:var(--dim);margin-top:2px}
+.header .subtitle{font-size:0.72rem;color:var(--dim);margin-top:2px}
 
-/* User badge */
-.user-bar{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px;margin-bottom:16px}
-.user-bar .label{font-size:0.78rem;color:var(--dim)}
-.user-bar .name{font-size:0.9rem;font-weight:600;color:var(--accent)}
-.user-bar .change-btn{margin-left:auto;font-size:0.75rem;color:var(--dim);cursor:pointer;border:1px solid var(--border);border-radius:6px;padding:4px 10px;background:transparent;font-family:inherit;transition:all .2s}
-.user-bar .change-btn:hover{color:var(--text);border-color:var(--accent)}
-.user-bar .user-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+/* ═══ 用户栏 ═══ */
+.user-bar{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 14px;margin-bottom:14px;box-shadow:var(--shadow)}
+.user-bar .label{font-size:0.76rem;color:var(--dim)}
+.user-bar .name{font-size:0.88rem;font-weight:600;color:var(--accent)}
+.user-bar .change-btn{margin-left:auto;font-size:0.74rem;color:var(--dim);cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 12px;background:transparent;font-family:inherit;transition:var(--transition)}
+.user-bar .change-btn:hover{color:var(--text);border-color:var(--accent);background:var(--accent-soft)}
+.user-bar .user-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
 
-/* Tabs */
-.tabs{display:flex;gap:4px;background:var(--card);border-radius:10px;padding:4px;margin-bottom:20px}
-.tab{flex:1;text-align:center;padding:10px 8px;border-radius:8px;cursor:pointer;font-size:0.85rem;color:var(--dim);transition:all .2s;border:none;background:transparent;font-family:inherit}
+/* ═══ Tabs ═══ */
+.tabs{display:flex;gap:4px;background:var(--card);border-radius:var(--radius-sm);padding:4px;margin-bottom:16px;border:1px solid var(--border)}
+.tab{flex:1;text-align:center;padding:9px 6px;border-radius:8px;cursor:pointer;font-size:0.82rem;color:var(--dim);transition:var(--transition);border:none;background:transparent;font-family:inherit;white-space:nowrap}
 .tab.active{background:var(--accent);color:#fff;font-weight:600}
-.tab:hover:not(.active){color:var(--text)}
+.tab:hover:not(.active){color:var(--text);background:var(--card-hover)}
 
-/* Form */
-.form-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
-.form-section h2{font-size:0.9rem;color:var(--dim);margin-bottom:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
-.field-group{margin-bottom:16px}
+/* ═══ 表单 ═══ */
+.form-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.form-section h2{font-size:0.82rem;color:var(--dim);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em}
+.field-group{margin-bottom:14px}
 .field-group:last-child{margin-bottom:0}
-.field-label{font-size:0.8rem;color:var(--dim);margin-bottom:6px;display:flex;align-items:center;gap:4px}
-.field-label .icon{font-size:0.9rem}
-.input,.select,.textarea{width:100%;background:#111317;border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:0.9rem;font-family:inherit;transition:border-color .2s}
-.input:focus,.select:focus,.textarea:focus{outline:none;border-color:var(--accent)}
-.textarea{resize:vertical;min-height:60px}
+.field-label{font-size:0.78rem;color:var(--dim);margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.field-label .icon{font-size:0.88rem}
+
+.input,.select,.textarea{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:0.88rem;font-family:inherit;transition:var(--transition)}
+.input:focus,.select:focus,.textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.textarea{resize:vertical;min-height:56px}
 .select{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238b919e'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:32px}
 
-/* Two column layout */
+/* 布局 */
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-@media(max-width:480px){.row{grid-template-columns:1fr}.row-3{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){
+  .row{grid-template-columns:1fr}
+  .row-3{grid-template-columns:1fr 1fr}
+}
 
-/* Chip selectors */
+/* ═══ Chip 选择器 ═══ */
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:#111317;color:var(--dim);font-size:0.78rem;cursor:pointer;transition:all .15s;user-select:none}
+.chip{padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--input-bg);color:var(--dim);font-size:0.76rem;cursor:pointer;transition:all .15s;user-select:none;-webkit-user-select:none}
 .chip:active{transform:scale(0.95)}
-.chip.selected{border-color:var(--accent);color:var(--accent);font-weight:600}
-.chips-multi .chip.selected{border-color:var(--accent2);color:var(--accent2)}
+.chip.selected{border-color:var(--accent);color:var(--accent);font-weight:600;background:var(--accent-soft)}
+.chips-multi .chip.selected{border-color:var(--accent2);color:var(--accent2);background:var(--accent2)15}
 
-/* Acuity selector */
-.acuity-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
-@media(max-width:480px){.acuity-grid{grid-template-columns:repeat(7,1fr);gap:2px}}
-.acuity-cell{text-align:center;padding:8px 2px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.75rem;color:var(--dim);transition:all .15s}
+/* ═══ 视力选择网格 ═══ */
+.acuity-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:6px}
+.acuity-cell{text-align:center;padding:8px 2px;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.76rem;color:var(--dim);transition:all .15s;background:var(--input-bg)}
 .acuity-cell:hover{border-color:var(--accent);color:var(--text)}
-.acuity-cell.selected{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:700}
+.acuity-cell.selected{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:700;transform:scale(1.05)}
 .acuity-cell .small{font-size:0.6rem;color:var(--dim);margin-top:2px}
-.acuity-cell.selected .small{color:rgba(255,255,255,0.7)}
+.acuity-cell.selected .small{color:rgba(255,255,255,0.75)}
 
-/* Submit button */
-.submit-btn{width:100%;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all .2s;margin-top:4px;font-family:inherit}
+/* ═══ 提交按钮 ═══ */
+.submit-btn{width:100%;padding:14px;border:none;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:0.92rem;font-weight:600;cursor:pointer;transition:var(--transition);margin-top:4px;font-family:inherit;box-shadow:var(--shadow)}
 .submit-btn:active{transform:scale(0.98)}
 .submit-btn:disabled{opacity:0.4;cursor:not-allowed}
 
-/* History */
-.history-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px}
-.history-item .date-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:4px}
-.history-item .date{font-size:0.95rem;font-weight:600}
-.history-item .user-tag{font-size:0.7rem;padding:2px 8px;border-radius:10px;font-weight:600;display:inline-block}
-.history-item .acuity-badge{font-size:1.1rem;font-weight:700;color:var(--accent)}
-.history-item .meta{font-size:0.78rem;color:var(--dim);display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-top:6px}
-.history-item .meta-item{display:flex;align-items:center;gap:4px}
-.history-item .notes{margin-top:8px;font-size:0.8rem;color:var(--text);opacity:0.8;padding-top:8px;border-top:1px solid var(--border)}
-.history-item .delete-btn{background:transparent;border:none;color:var(--red);font-size:0.75rem;cursor:pointer;opacity:0.5;transition:opacity .2s;font-family:inherit;margin-top:8px}
+/* ═══ 历史记录 ═══ */
+.history-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.history-item .date-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:4px}
+.history-item .date{font-size:0.92rem;font-weight:600}
+.history-item .user-tag{font-size:0.68rem;padding:2px 8px;border-radius:10px;font-weight:600;display:inline-block}
+.history-item .acuity-badge{font-size:1.05rem;font-weight:700;color:var(--accent)}
+.history-item .meta{font-size:0.74rem;color:var(--dim);display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
+.history-item .meta-item{display:flex;align-items:center;gap:3px}
+.history-item .notes{margin-top:8px;font-size:0.78rem;color:var(--text-secondary);padding-top:8px;border-top:1px solid var(--border)}
+.history-item .delete-btn{background:transparent;border:none;color:var(--red);font-size:0.72rem;cursor:pointer;opacity:0.4;transition:var(--transition);font-family:inherit;margin-top:6px}
 .history-item .delete-btn:hover{opacity:1}
 
-/* User filter */
-.user-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
-.user-filter .filter-label{font-size:0.78rem;color:var(--dim);margin-right:4px}
-.user-filter .filter-chip{padding:4px 10px;border-radius:14px;border:1px solid var(--border);background:#111317;color:var(--dim);font-size:0.75rem;cursor:pointer;transition:all .15s}
+/* ═══ 用户筛选 ═══ */
+.user-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.user-filter .filter-label{font-size:0.76rem;color:var(--dim);margin-right:4px}
+.user-filter .filter-chip{padding:4px 10px;border-radius:14px;border:1px solid var(--border);background:var(--input-bg);color:var(--dim);font-size:0.73rem;cursor:pointer;transition:all .15s}
 .user-filter .filter-chip.active{border-color:var(--accent);color:var(--accent);font-weight:600}
 .user-filter .filter-chip .dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
 
-/* Chart */
-.chart-container{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
-.chart-container h2{font-size:0.9rem;color:var(--dim);margin-bottom:14px;font-weight:600}
-#trendChart{width:100%;height:280px}
+/* ═══ 图表 ═══ */
+.chart-container{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.chart-container h2{font-size:0.82rem;color:var(--dim);margin-bottom:12px;font-weight:600}
+#trendChart{width:100%;height:260px;display:block}
 
-/* Settings */
-.settings-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
-.settings-section h2{font-size:0.9rem;color:var(--dim);margin-bottom:14px;font-weight:600}
+/* ═══ 设置 ═══ */
+.settings-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.settings-section h2{font-size:0.82rem;color:var(--dim);margin-bottom:12px;font-weight:600}
 .setting-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);gap:10px}
 .setting-item:last-child{border-bottom:none}
-.setting-item label{font-size:0.85rem;flex-shrink:0}
+.setting-item label{font-size:0.84rem;flex-shrink:0}
 .setting-item .input,.setting-item .select{width:150px;flex-shrink:0}
-.data-btn{padding:10px 16px;border:1px solid var(--border);border-radius:8px;background:#111317;color:var(--text);font-size:0.82rem;cursor:pointer;transition:all .2s;font-family:inherit;margin-right:8px;margin-bottom:8px}
-.data-btn:hover{border-color:var(--accent)}
+.data-btn{padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--input-bg);color:var(--text);font-size:0.8rem;cursor:pointer;transition:var(--transition);font-family:inherit;margin-right:6px;margin-bottom:6px}
+.data-btn:hover{border-color:var(--accent);color:var(--accent)}
 
-/* User management */
-.user-card{background:#111317;border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+/* ═══ 用户卡片 ═══ */
+.user-card{background:var(--input-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
 .user-card .user-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .user-card .user-info{flex:1}
-.user-card .user-info .name{font-size:0.88rem;font-weight:600}
-.user-card .user-info .desc{font-size:0.72rem;color:var(--dim)}
-.user-card .record-count{font-size:0.75rem;color:var(--dim);background:var(--card);padding:2px 8px;border-radius:10px}
-.user-card .delete-user{font-size:0.72rem;color:var(--red);cursor:pointer;background:transparent;border:none;opacity:0.5;font-family:inherit}
+.user-card .user-info .name{font-size:0.86rem;font-weight:600}
+.user-card .user-info .desc{font-size:0.7rem;color:var(--dim)}
+.user-card .record-count{font-size:0.72rem;color:var(--dim);background:var(--card);padding:2px 8px;border-radius:10px}
+.user-card .delete-user{font-size:0.7rem;color:var(--red);cursor:pointer;background:transparent;border:none;opacity:0.5;font-family:inherit;transition:var(--transition)}
 .user-card .delete-user:hover{opacity:1}
 
-/* Toast */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--green);color:#fff;padding:10px 24px;border-radius:8px;font-size:0.85rem;opacity:0;transition:all .3s;z-index:1000;white-space:nowrap}
+/* ═══ Toast ═══ */
+.toast{position:fixed;bottom:env(safe-area-inset-bottom,20px);left:50%;transform:translateX(-50%) translateY(100px);background:var(--green);color:#fff;padding:10px 24px;border-radius:10px;font-size:0.82rem;opacity:0;transition:all .3s;z-index:1000;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* Empty state */
-.empty{text-align:center;padding:40px 20px;color:var(--dim);font-size:0.9rem}
+/* ═══ 空状态 ═══ */
+.empty{text-align:center;padding:40px 20px;color:var(--dim);font-size:0.86rem}
 .empty .emoji{font-size:2rem;margin-bottom:8px;display:block}
 
-/* Scrollbar */
-::-webkit-scrollbar{width:6px}
+/* ═══ 滚动条 ═══ */
+::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border-hover)}
 
-/* Page visibility */
+/* ═══ 页面切换 ═══ */
 .page{display:none}
 .page.active{display:block}
 
-/* User selector modal */
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+/* ═══ 弹窗 ═══ */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .modal-overlay.show{display:flex}
-.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:380px;width:100%}
-.modal h3{font-size:1.1rem;margin-bottom:16px;text-align:center}
-.modal .user-option{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:8px;transition:all .15s;background:#111317}
-.modal .user-option:hover{border-color:var(--accent)}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;max-width:360px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.modal h3{font-size:1.05rem;margin-bottom:16px;text-align:center}
+.modal .user-option{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:8px;transition:var(--transition);background:var(--input-bg)}
+.modal .user-option:hover{border-color:var(--accent);background:var(--card-hover)}
 .modal .user-option .dot{width:10px;height:10px;border-radius:50%}
-.modal .user-option .name{font-size:0.9rem;font-weight:600}
-.modal .user-option .desc{font-size:0.72rem;color:var(--dim)}
+.modal .user-option .name{font-size:0.88rem;font-weight:600}
+.modal .user-option .desc{font-size:0.7rem;color:var(--dim)}
 .modal .add-user-section{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
-.modal .add-user-section input{width:100%;background:#111317;border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:0.9rem;font-family:inherit;margin-bottom:8px}
+.modal .add-user-section input{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:0.88rem;font-family:inherit;margin-bottom:8px}
 .modal .add-user-section input:focus{outline:none;border-color:var(--accent)}
-.modal .add-user-btn{width:100%;padding:10px;border:1px dashed var(--border);border-radius:8px;background:transparent;color:var(--dim);font-size:0.82rem;cursor:pointer;font-family:inherit;transition:all .2s}
+.modal .add-user-btn{width:100%;padding:10px;border:1px dashed var(--border);border-radius:8px;background:transparent;color:var(--dim);font-size:0.8rem;cursor:pointer;font-family:inherit;transition:var(--transition)}
 .modal .add-user-btn:hover{border-color:var(--accent);color:var(--accent)}
 
-/* Color picker dots */
+/* ═══ 颜色选择 ═══ */
 .color-picker{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
-.color-dot{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s}
-.color-dot.selected{border-color:#fff;transform:scale(1.15)}
+.color-dot{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:var(--transition)}
+.color-dot.selected{border-color:var(--text);transform:scale(1.15)}
+
+/* ═══ 移动端适配 ═══ */
+@media(max-width:520px){
+  body{padding:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom))}
+  .header h1{font-size:1.1rem}
+  .header .subtitle{font-size:0.68rem}
+  .form-section{padding:14px}
+  .chart-container{padding:14px}
+  .settings-section{padding:14px}
+  .tab{font-size:0.76rem;padding:8px 4px}
+  .chip{font-size:0.72rem;padding:5px 10px}
+  .acuity-cell{padding:6px 1px;font-size:0.7rem}
+  .acuity-cell .small{font-size:0.56rem}
+  .history-item{padding:12px}
+  .history-item .meta{grid-template-columns:1fr;gap:2px}
+  #trendChart{height:220px}
+  .submit-btn{padding:13px;font-size:0.88rem}
+  .modal{padding:20px}
+  .row-3{grid-template-columns:1fr 1fr}
+  .setting-item{flex-direction:column;align-items:flex-start;gap:6px}
+  .setting-item .input,.setting-item .select{width:100%}
+  .data-btn{font-size:0.76rem;padding:8px 12px}
+}
+
+/* ═══ 平板适配 ═══ */
+@media(min-width:768px){
+  body{padding:24px}
+  .form-section{padding:24px}
+  .header h1{font-size:1.4rem}
+}
+
+/* ═══ 统计卡片 ═══ */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:520px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-card{text-align:center;padding:10px 6px}
+.stat-card .stat-label{font-size:0.68rem;color:var(--dim)}
+.stat-card .stat-value{font-size:1.25rem;font-weight:700;margin-top:2px}
+
+/* ═══ 对照表 ═══ */
+.acuity-table{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:0.72rem;color:var(--dim)}
+.acuity-table .cell{text-align:center;padding:6px 2px;border-radius:6px;background:var(--input-bg)}
+.acuity-table .cell.highlight{color:var(--accent);font-weight:600;background:var(--accent-soft)}
+@media(max-width:520px){.acuity-table{grid-template-columns:repeat(7,1fr);font-size:0.66rem}}
 </style>
 </head>
 <body>
@@ -265,7 +381,7 @@ body{min-height:100vh;padding:16px;max-width:900px;margin:0 auto}
     <div class="field-group" id="acuity-section">
       <div class="field-label">👁️ 双眼视力（选你看到的最小行）</div>
       <div class="acuity-grid" id="acuity-grid"></div>
-      <div style="font-size:0.72rem;color:var(--dim);margin-top:6px">每行全部指对才算通过</div>
+      <div style="font-size:0.7rem;color:var(--dim);margin-top:6px">每行全部指对才算通过</div>
     </div>
     <div class="field-group" id="acuity-left-section" style="display:none">
       <div class="field-label">👁️ 左眼视力</div>
@@ -387,21 +503,21 @@ body{min-height:100vh;padding:16px;max-width:900px;margin:0 auto}
   </div>
   <div class="settings-section">
     <h2>ℹ️ 五分 ↔ 小数 对照</h2>
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:0.75rem;color:var(--dim)">
-      <div style="text-align:center;padding:4px">4.0<br>0.1</div>
-      <div style="text-align:center;padding:4px">4.1<br>0.12</div>
-      <div style="text-align:center;padding:4px">4.2<br>0.15</div>
-      <div style="text-align:center;padding:4px">4.3<br>0.2</div>
-      <div style="text-align:center;padding:4px">4.4<br>0.25</div>
-      <div style="text-align:center;padding:4px">4.5<br>0.3</div>
-      <div style="text-align:center;padding:4px">4.6<br>0.4</div>
-      <div style="text-align:center;padding:4px">4.7<br>0.5</div>
-      <div style="text-align:center;padding:4px">4.8<br>0.6</div>
-      <div style="text-align:center;padding:4px;color:var(--accent);font-weight:600">4.9<br>0.8</div>
-      <div style="text-align:center;padding:4px">5.0<br>1.0</div>
-      <div style="text-align:center;padding:4px">5.1<br>1.2</div>
-      <div style="text-align:center;padding:4px">5.2<br>1.5</div>
-      <div style="text-align:center;padding:4px">5.3<br>2.0</div>
+    <div class="acuity-table">
+      <div class="cell">4.0<br>0.1</div>
+      <div class="cell">4.1<br>0.12</div>
+      <div class="cell">4.2<br>0.15</div>
+      <div class="cell">4.3<br>0.2</div>
+      <div class="cell">4.4<br>0.25</div>
+      <div class="cell">4.5<br>0.3</div>
+      <div class="cell">4.6<br>0.4</div>
+      <div class="cell">4.7<br>0.5</div>
+      <div class="cell">4.8<br>0.6</div>
+      <div class="cell highlight">4.9<br>0.8</div>
+      <div class="cell">5.0<br>1.0</div>
+      <div class="cell">5.1<br>1.2</div>
+      <div class="cell">5.2<br>1.5</div>
+      <div class="cell">5.3<br>2.0</div>
     </div>
   </div>
 </div>
@@ -450,8 +566,25 @@ let records = [];
 let users = [];
 let currentUserId = null;
 let selectedColor = '#5b9bf0';
-let historyFilter = 'all'; // 'all' or userId
+let historyFilter = 'all';
 let chartFilter = 'all';
+
+// ===== 获取CSS变量（适配明暗模式） =====
+function cssVar(name){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+function getColors(){
+  return {
+    text: cssVar('--text'),
+    dim: cssVar('--dim'),
+    border: cssVar('--border'),
+    accent: cssVar('--accent'),
+    green: cssVar('--green'),
+    red: cssVar('--red'),
+    bg: cssVar('--bg'),
+    card: cssVar('--card'),
+  };
+}
 
 // ===== 初始化 =====
 function init(){
@@ -460,12 +593,10 @@ function init(){
   buildAcuityGrid('acuity-grid-left','left');
   buildAcuityGrid('acuity-grid-right','right');
   bindEvents();
-  
-  // 如果没有用户，弹出选择弹窗
+
   if(users.length === 0){
     showUserModal();
   }else{
-    // 恢复上次用户
     const saved = localStorage.getItem(CURRENT_USER_KEY);
     if(saved && users.find(u => u.id === saved)){
       currentUserId = saved;
@@ -474,11 +605,16 @@ function init(){
     }
     updateUserBar();
   }
-  
+
   setDefaultForm();
   renderHistory();
   renderChart();
   renderUserList();
+
+  // 监听主题变化，重绘图表
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    renderChart();
+  });
 }
 
 function loadData(){
@@ -497,14 +633,8 @@ function saveData(){
 }
 
 // ===== 用户管理 =====
-function showUserModal(){
-  renderUserOptions();
-  document.getElementById('user-modal').classList.add('show');
-}
-
-function hideUserModal(){
-  document.getElementById('user-modal').classList.remove('show');
-}
+function showUserModal(){ renderUserOptions(); document.getElementById('user-modal').classList.add('show'); }
+function hideUserModal(){ document.getElementById('user-modal').classList.remove('show'); }
 
 function renderUserOptions(){
   const container = document.getElementById('user-options-list');
@@ -517,16 +647,11 @@ function renderUserOptions(){
       </div>
     </div>
   `).join('');
-  
   container.querySelectorAll('.user-option').forEach(el => {
     el.addEventListener('click', () => {
       currentUserId = el.dataset.userId;
-      updateUserBar();
-      saveData();
-      hideUserModal();
-      setDefaultForm();
-      renderHistory();
-      renderChart();
+      updateUserBar(); saveData(); hideUserModal();
+      setDefaultForm(); renderHistory(); renderChart();
     });
   });
 }
@@ -535,7 +660,7 @@ function renderUserList(){
   const container = document.getElementById('user-list');
   if(!container) return;
   if(users.length === 0){
-    container.innerHTML = '<div style="color:var(--dim);font-size:0.82rem;padding:8px 0">暂无用户，点击下方按钮添加</div>';
+    container.innerHTML = '<div style="color:var(--dim);font-size:0.8rem;padding:8px 0">暂无用户，点击下方按钮添加</div>';
     return;
   }
   container.innerHTML = users.map(u => {
@@ -555,21 +680,10 @@ function renderUserList(){
 
 function addUser(name, color){
   if(!name.trim()) return;
-  const user = {
-    id: 'u_' + Date.now(),
-    name: name.trim(),
-    color: color,
-    created: new Date().toISOString()
-  };
-  users.push(user);
-  currentUserId = user.id;
-  saveData();
-  updateUserBar();
-  renderUserOptions();
-  renderUserList();
-  setDefaultForm();
-  renderHistory();
-  renderChart();
+  const user = { id: 'u_' + Date.now(), name: name.trim(), color: color, created: new Date().toISOString() };
+  users.push(user); currentUserId = user.id; saveData();
+  updateUserBar(); renderUserOptions(); renderUserList();
+  setDefaultForm(); renderHistory(); renderChart();
   showToast(`用户「${name}」已添加`);
 }
 
@@ -580,20 +694,12 @@ function deleteUser(userId){
   if(!confirm(`删除用户「${user.name}」？\n将同时删除该用户的 ${count} 条记录。`)) return;
   records = records.filter(r => r.userId !== userId);
   users = users.filter(u => u.id !== userId);
-  if(currentUserId === userId){
-    currentUserId = users.length > 0 ? users[0].id : null;
-  }
-  saveData();
-  updateUserBar();
-  renderUserList();
-  renderHistory();
-  renderChart();
+  if(currentUserId === userId) currentUserId = users.length > 0 ? users[0].id : null;
+  saveData(); updateUserBar(); renderUserList(); renderHistory(); renderChart();
   showToast('用户已删除');
 }
 
-function getCurrentUser(){
-  return users.find(u => u.id === currentUserId);
-}
+function getCurrentUser(){ return users.find(u => u.id === currentUserId); }
 
 function updateUserBar(){
   const user = getCurrentUser();
@@ -607,7 +713,7 @@ function updateUserBar(){
 }
 
 // ===== 视力选择网格 =====
-function buildAcuityGrid(containerId,eye){
+function buildAcuityGrid(containerId, eye){
   const container = document.getElementById(containerId);
   if(!container) return;
   container.innerHTML = '';
@@ -636,9 +742,8 @@ function setupChips(containerId, multi=false){
   if(!container) return;
   container.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
-      if(multi){
-        chip.classList.toggle('selected');
-      }else{
+      if(multi){ chip.classList.toggle('selected'); }
+      else{
         container.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
         chip.classList.add('selected');
       }
@@ -650,10 +755,8 @@ function getChipValue(containerId){
   const sel = document.querySelector(`#${containerId} .chip.selected`);
   return sel ? sel.dataset.val : '';
 }
-
 function getMultiChipValues(containerId){
-  const sels = document.querySelectorAll(`#${containerId} .chip.selected`);
-  return Array.from(sels).map(s => s.dataset.val);
+  return Array.from(document.querySelectorAll(`#${containerId} .chip.selected`)).map(s => s.dataset.val);
 }
 
 // ===== 表单默认值 =====
@@ -664,8 +767,7 @@ function setDefaultForm(){
   document.getElementById('f-distance').value = localStorage.getItem('default_distance') || '1.3';
   document.getElementById('f-device').value = localStorage.getItem('default_device') || 'iPad mini 7';
   document.getElementById('f-glasses').value = localStorage.getItem('default_glasses') || '是';
-  
-  // 自动计算距上次练眼天数（当前用户）
+
   if(currentUserId){
     const userRecords = records.filter(r => r.userId === currentUserId);
     const lastPractice = userRecords.filter(r => r.practiced && r.practiced !== '没练').sort((a,b) => b.date.localeCompare(a.date))[0];
@@ -680,7 +782,6 @@ function setDefaultForm(){
 
 // ===== 事件绑定 =====
 function bindEvents(){
-  // Tab 切换
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -693,11 +794,9 @@ function bindEvents(){
     });
   });
 
-  // Chips
   ['f-weather','f-light','f-practiced','f-fatigue','f-clarity','f-separate'].forEach(id => setupChips(id));
   setupChips('f-reaction', true);
 
-  // 左右单测切换
   document.getElementById('f-separate').addEventListener('click', e => {
     const chip = e.target.closest('.chip');
     if(!chip) return;
@@ -706,13 +805,9 @@ function bindEvents(){
     document.getElementById('acuity-right-section').style.display = isSeparate ? 'block' : 'none';
   });
 
-  // 提交
   document.getElementById('submit-btn').addEventListener('click', submitRecord);
-
-  // 用户切换
   document.getElementById('change-user-btn').addEventListener('click', showUserModal);
 
-  // 用户弹窗 - 颜色选择
   document.querySelectorAll('#color-picker .color-dot').forEach(dot => {
     dot.addEventListener('click', () => {
       document.querySelectorAll('#color-picker .color-dot').forEach(d => d.classList.remove('selected'));
@@ -721,37 +816,24 @@ function bindEvents(){
     });
   });
 
-  // 用户弹窗 - 添加
   document.getElementById('btn-add-user').addEventListener('click', () => {
     const name = document.getElementById('new-user-name').value;
-    if(name.trim()){
-      addUser(name, selectedColor);
-      document.getElementById('new-user-name').value = '';
-      hideUserModal();
-    }else{
-      showToast('请输入用户名', 'error');
-    }
+    if(name.trim()){ addUser(name, selectedColor); document.getElementById('new-user-name').value = ''; hideUserModal(); }
+    else showToast('请输入用户名', 'error');
   });
 
-  // 设置页添加用户
-  document.getElementById('btn-add-user-settings').addEventListener('click', () => {
-    showUserModal();
-  });
+  document.getElementById('btn-add-user-settings').addEventListener('click', showUserModal);
 
-  // 设置页默认参数
   document.getElementById('s-device').value = localStorage.getItem('default_device') || 'iPad mini 7';
   document.getElementById('s-distance').value = localStorage.getItem('default_distance') || '1.3';
   document.getElementById('s-brightness').value = localStorage.getItem('default_brightness') || '100%';
   document.getElementById('s-glasses').value = localStorage.getItem('default_glasses') || '是';
-  
   ['s-device','s-distance','s-brightness','s-glasses'].forEach(id => {
     document.getElementById(id).addEventListener('change', e => {
-      const key = 'default_' + id.replace('s-','');
-      localStorage.setItem(key, e.target.value);
+      localStorage.setItem('default_' + id.replace('s-',''), e.target.value);
     });
   });
 
-  // 数据管理
   document.getElementById('btn-export').addEventListener('click', exportData);
   document.getElementById('btn-import').addEventListener('click', () => document.getElementById('import-file').click());
   document.getElementById('import-file').addEventListener('change', importData);
@@ -760,12 +842,7 @@ function bindEvents(){
 
 // ===== 提交记录 =====
 function submitRecord(){
-  if(!currentUserId){
-    showToast('请先选择用户', 'error');
-    showUserModal();
-    return;
-  }
-  
+  if(!currentUserId){ showToast('请先选择用户', 'error'); showUserModal(); return; }
   const user = getCurrentUser();
   const date = document.getElementById('f-date').value;
   const time = document.getElementById('f-time').value;
@@ -773,43 +850,28 @@ function submitRecord(){
   const device = document.getElementById('f-device').value;
   const glasses = document.getElementById('f-glasses').value;
   const separate = getChipValue('f-separate');
-  
-  if(!date || !time){
-    showToast('请填写日期和时间', 'error');
-    return;
-  }
-  
+
+  if(!date || !time){ showToast('请填写日期和时间', 'error'); return; }
+
   const acuityBoth = getSelectedAcuity('acuity-grid');
   const acuityLeft = separate === 'yes' ? getSelectedAcuity('acuity-grid-left') : null;
   const acuityRight = separate === 'yes' ? getSelectedAcuity('acuity-grid-right') : null;
-  
-  if(!acuityBoth && !acuityLeft){
-    showToast('请选择视力结果', 'error');
-    return;
-  }
-  
+
+  if(!acuityBoth && !acuityLeft){ showToast('请选择视力结果', 'error'); return; }
+
   const record = {
-    id: Date.now(),
-    userId: currentUserId,
-    userName: user.name,
-    userColor: user.color,
-    date, time, distance, device, glasses,
-    separate: separate === 'yes',
-    acuityBoth: acuityBoth,
-    acuityLeft: acuityLeft,
-    acuityRight: acuityRight,
-    weather: getChipValue('f-weather'),
-    light: getChipValue('f-light'),
+    id: Date.now(), userId: currentUserId, userName: user.name, userColor: user.color,
+    date, time, distance, device, glasses, separate: separate === 'yes',
+    acuityBoth, acuityLeft, acuityRight,
+    weather: getChipValue('f-weather'), light: getChipValue('f-light'),
     practiced: getChipValue('f-practiced'),
     daysSince: document.getElementById('f-days-since').value || '',
-    fatigue: getChipValue('f-fatigue'),
-    clarity: getChipValue('f-clarity'),
+    fatigue: getChipValue('f-fatigue'), clarity: getChipValue('f-clarity'),
     after: document.getElementById('f-after').value,
     reaction: getMultiChipValues('f-reaction'),
     notes: document.getElementById('f-notes').value,
   };
-  
-  // 检查同用户同日记录
+
   const existIdx = records.findIndex(r => r.userId === currentUserId && r.date === date);
   if(existIdx >= 0){
     if(!confirm(`${user.name} 在 ${date} 已有记录，要覆盖吗？`)) return;
@@ -817,11 +879,10 @@ function submitRecord(){
   }else{
     records.push(record);
   }
-  
+
   saveData();
   showToast('记录已保存 ✅');
-  
-  // 重置表单
+
   setTimeout(() => {
     document.getElementById('f-after').value = '';
     document.getElementById('f-notes').value = '';
@@ -829,10 +890,8 @@ function submitRecord(){
     document.querySelectorAll('#f-weather .chip, #f-light .chip, #f-practiced .chip, #f-fatigue .chip, #f-clarity .chip, #f-reaction .chip').forEach(c => c.classList.remove('selected'));
     setDefaultForm();
   }, 500);
-  
-  renderHistory();
-  renderChart();
-  renderUserList();
+
+  renderHistory(); renderChart(); renderUserList();
 }
 
 // ===== 用户筛选器 =====
@@ -846,14 +905,10 @@ function renderUserFilter(containerId, filterVar){
     html += `<span class="filter-chip ${eval(filterVar) === u.id ? 'active' : ''}" data-filter="${u.id}"><span class="dot" style="background:${u.color}"></span>${u.name} (${count})</span>`;
   });
   container.innerHTML = html;
-  
   container.querySelectorAll('.filter-chip').forEach(chip => {
     chip.addEventListener('click', () => {
-      if(filterVar === 'historyFilter'){
-        historyFilter = chip.dataset.filter;
-      }else{
-        chartFilter = chip.dataset.filter;
-      }
+      if(filterVar === 'historyFilter') historyFilter = chip.dataset.filter;
+      else chartFilter = chip.dataset.filter;
       renderUserFilter(containerId, filterVar);
       if(filterVar === 'historyFilter') renderHistory();
       else renderChart();
@@ -865,36 +920,29 @@ function renderUserFilter(containerId, filterVar){
 function renderHistory(){
   const container = document.getElementById('history-list');
   renderUserFilter('user-filter', 'historyFilter');
-  
-  let filtered = records;
-  if(historyFilter !== 'all'){
-    filtered = records.filter(r => r.userId === historyFilter);
-  }
-  
+  let filtered = historyFilter !== 'all' ? records.filter(r => r.userId === historyFilter) : records;
+
   if(filtered.length === 0){
     container.innerHTML = '<div class="empty"><span class="emoji">📝</span>还没有记录<br>去"记录"页填第一条吧</div>';
     return;
   }
-  
+
   const sorted = [...filtered].sort((a,b) => {
     if(b.date !== a.date) return b.date.localeCompare(a.date);
     return (b.time || '').localeCompare(a.time || '');
   });
-  
+
   container.innerHTML = sorted.map(r => {
     const acuity = r.separate ? null : r.acuityBoth;
-    const acuityText = r.separate 
-      ? `左 ${r.acuityLeft || '—'} / 右 ${r.acuityRight || '—'}`
-      : `${acuity || '—'}`;
+    const acuityText = r.separate ? `左 ${r.acuityLeft || '—'} / 右 ${r.acuityRight || '—'}` : `${acuity || '—'}`;
     const acuityDecimal = acuity ? (ACUITY_DATA.find(a => a.score === acuity)?.decimal || '') : '';
-    
     return `
     <div class="history-item">
       <div class="date-row">
         <span class="date">${r.date} ${r.time || ''}</span>
-        <div style="display:flex;align-items:center;gap:8px">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
           <span class="user-tag" style="background:${r.userColor}22;color:${r.userColor}">${r.userName || '未知'}</span>
-          <span class="acuity-badge">${acuityText}${acuityDecimal ? ` <span style="font-size:0.75rem;color:var(--dim)">(${acuityDecimal})</span>` : ''}</span>
+          <span class="acuity-badge">${acuityText}${acuityDecimal ? ` <span style="font-size:0.72rem;color:var(--dim)">(${acuityDecimal})</span>` : ''}</span>
         </div>
       </div>
       <div class="meta">
@@ -917,10 +965,7 @@ function renderHistory(){
 function deleteRecord(id){
   if(!confirm('删除这条记录？')) return;
   records = records.filter(r => r.id !== id);
-  saveData();
-  renderHistory();
-  renderChart();
-  renderUserList();
+  saveData(); renderHistory(); renderChart(); renderUserList();
   showToast('已删除');
 }
 
@@ -928,111 +973,92 @@ function deleteRecord(id){
 function renderChart(){
   const canvas = document.getElementById('trendChart');
   if(!canvas) return;
-  
   renderUserFilter('chart-user-filter', 'chartFilter');
-  
-  let filtered = records;
-  if(chartFilter !== 'all'){
-    filtered = records.filter(r => r.userId === chartFilter);
-  }
-  
+
+  let filtered = chartFilter !== 'all' ? records.filter(r => r.userId === chartFilter) : records;
   const sorted = [...filtered].sort((a,b) => {
     if(a.date !== b.date) return a.date.localeCompare(b.date);
     return (a.time || '').localeCompare(b.time || '');
   });
-  
-  if(sorted.length === 0){
-    const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = canvas.offsetWidth * dpr;
-    canvas.height = 280 * dpr;
-    ctx.scale(dpr, dpr);
-    ctx.clearRect(0,0,canvas.offsetWidth,280);
-    document.getElementById('stats').innerHTML = '<div class="empty">暂无数据</div>';
-    return;
-  }
-  
+
+  const colors = getColors();
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
   const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * dpr;
-  canvas.height = 280 * dpr;
+  const cw = rect.width || canvas.offsetWidth;
+  const ch = window.innerWidth <= 520 ? 220 : 260;
+  canvas.width = cw * dpr;
+  canvas.height = ch * dpr;
+  canvas.style.height = ch + 'px';
   ctx.scale(dpr, dpr);
-  const W = rect.width;
-  const H = 280;
-  
-  ctx.clearRect(0,0,W,H);
-  
-  const pad = {top:30,right:20,bottom:40,left:40};
+  const W = cw;
+  const H = ch;
+
+  ctx.clearRect(0, 0, W, H);
+
+  if(sorted.length === 0){
+    document.getElementById('stats').innerHTML = '<div class="empty">暂无数据</div>';
+    return;
+  }
+
+  const pad = {top:30, right:20, bottom:36, left:38};
   const plotW = W - pad.left - pad.right;
   const plotH = H - pad.top - pad.bottom;
-  
-  const minScore = 4.0;
-  const maxScore = 5.3;
-  
+  const minScore = 4.0, maxScore = 5.3;
+
   // 网格线
-  ctx.font = '10px sans-serif';
-  ctx.fillStyle = '#8b919e';
-  
+  ctx.font = '10px ' + getComputedStyle(document.body).fontFamily;
+  ctx.textAlign = 'left';
   for(let s = minScore; s <= maxScore + 0.01; s += 0.1){
     const y = pad.top + plotH - ((s - minScore) / (maxScore - minScore)) * plotH;
     ctx.beginPath();
     ctx.moveTo(pad.left, y);
     ctx.lineTo(W - pad.right, y);
-    ctx.strokeStyle = Math.abs(s - 4.9) < 0.01 ? '#5b9bf0' : '#2a2e38';
-    ctx.lineWidth = Math.abs(s - 4.9) < 0.01 ? 1.5 : 0.5;
-    ctx.globalAlpha = Math.abs(s - 4.9) < 0.01 ? 0.3 : 0.5;
+    const is49 = Math.abs(s - 4.9) < 0.01;
+    ctx.strokeStyle = is49 ? colors.accent : colors.border;
+    ctx.lineWidth = is49 ? 1.5 : 0.5;
+    ctx.globalAlpha = is49 ? 0.35 : 0.5;
     ctx.stroke();
     ctx.globalAlpha = 1;
-    ctx.fillText(s.toFixed(1), 8, y + 3);
+    ctx.fillStyle = colors.dim;
+    ctx.fillText(s.toFixed(1), 6, y + 3);
   }
-  
+
   // 按用户分组
   let lines = [];
   if(chartFilter === 'all'){
-    // 多用户模式：每个用户一条线
     users.forEach(u => {
       const userRecords = sorted.filter(r => r.userId === u.id);
       if(userRecords.length > 0){
-        lines.push({
-          name: u.name,
-          color: u.color,
-          data: userRecords.map(r => ({
-            date: r.date,
-            val: r.acuityBoth || r.acuityLeft
-          }))
-        });
+        lines.push({ name: u.name, color: u.color, data: userRecords.map(r => ({ date: r.date, val: r.acuityBoth || r.acuityLeft })) });
       }
     });
   }else{
-    // 单用户模式：双眼/左眼/右眼分开
     const bothData = sorted.map(r => ({date:r.date, val:r.acuityBoth}));
     const leftData = sorted.filter(r => r.separate).map(r => ({date:r.date, val:r.acuityLeft}));
     const rightData = sorted.filter(r => r.separate).map(r => ({date:r.date, val:r.acuityRight}));
-    
-    if(leftData.length > 0 || rightData.length > 0){
-      if(bothData.some(d => d.val)) lines.push({name:'双眼', color:'#5b9bf0', data: bothData.filter(d => d.val)});
-      if(leftData.some(d => d.val)) lines.push({name:'左眼', color:'#22c55e', data: leftData.filter(d => d.val)});
-      if(rightData.some(d => d.val)) lines.push({name:'右眼', color:'#3b82f6', data: rightData.filter(d => d.val)});
+    if(leftData.some(d => d.val) || rightData.some(d => d.val)){
+      if(bothData.some(d => d.val)) lines.push({name:'双眼', color:colors.accent, data: bothData.filter(d => d.val)});
+      if(leftData.some(d => d.val)) lines.push({name:'左眼', color:colors.green, data: leftData.filter(d => d.val)});
+      if(rightData.some(d => d.val)) lines.push({name:'右眼', color:colors.blue || colors.accent, data: rightData.filter(d => d.val)});
     }else{
-      lines.push({name:'双眼', color:'#5b9bf0', data: bothData.filter(d => d.val)});
+      lines.push({name:'双眼', color:colors.accent, data: bothData.filter(d => d.val)});
     }
   }
-  
-  // 收集所有日期
+
   const allDates = [...new Set(lines.flatMap(l => l.data.map(d => d.date)))].sort();
   const step = plotW / Math.max(allDates.length - 1, 1);
-  
+
   // X轴标签
-  ctx.fillStyle = '#8b919e';
+  ctx.fillStyle = colors.dim;
   ctx.textAlign = 'center';
   allDates.forEach((date, i) => {
     const x = pad.left + i * step;
-    if(allDates.length <= 15 || i % Math.ceil(allDates.length/10) === 0){
-      ctx.fillText(date.slice(5), x, H - 12);
+    if(allDates.length <= 15 || i % Math.ceil(allDates.length / 10) === 0){
+      ctx.fillText(date.slice(5), x, H - 10);
     }
   });
-  
+
   // 画线
   function drawLine(line){
     ctx.strokeStyle = line.color;
@@ -1048,7 +1074,6 @@ function renderChart(){
       else ctx.lineTo(x, y);
     });
     ctx.stroke();
-    
     // 画点
     line.data.forEach(d => {
       const i = allDates.indexOf(d.date);
@@ -1056,70 +1081,48 @@ function renderChart(){
       const x = pad.left + i * step;
       const y = pad.top + plotH - ((d.val - minScore) / (maxScore - minScore)) * plotH;
       ctx.beginPath();
-      ctx.arc(x, y, 4, 0, Math.PI*2);
+      ctx.arc(x, y, 3.5, 0, Math.PI * 2);
       ctx.fillStyle = line.color;
       ctx.fill();
     });
   }
-  
   lines.forEach(drawLine);
-  
+
   // 图例
   ctx.textAlign = 'left';
-  ctx.font = '11px sans-serif';
-  let legendX = pad.left + 10;
+  ctx.font = '11px ' + getComputedStyle(document.body).fontFamily;
+  let legendX = pad.left + 8;
   lines.forEach((line, i) => {
     ctx.fillStyle = line.color;
     ctx.fillText(`● ${line.name}`, legendX, pad.top + 14 + i * 16);
-    legendX += ctx.measureText(`● ${line.name}`).width + 20;
+    legendX += ctx.measureText(`● ${line.name}`).width + 18;
   });
-  
+
   // 统计摘要
   const allScores = sorted.map(r => r.acuityBoth || r.acuityLeft).filter(s => s);
   if(allScores.length > 0){
-    const first = allScores[0];
-    const last = allScores[allScores.length-1];
-    const max = Math.max(...allScores);
+    const first = allScores[0], last = allScores[allScores.length - 1], max = Math.max(...allScores);
     const change = (last - first).toFixed(1);
     const changeStr = change > 0 ? `+${change}` : change;
     const changeColor = change > 0 ? 'var(--green)' : change < 0 ? 'var(--red)' : 'var(--dim)';
-    
     const userLabel = chartFilter === 'all' ? '全部用户' : (getCurrentUser()?.name || '');
-    
+
     document.getElementById('stats').innerHTML = `
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
-        <div style="text-align:center">
-          <div style="font-size:0.7rem;color:var(--dim)">首次</div>
-          <div style="font-size:1.3rem;font-weight:700">${first.toFixed(1)}</div>
-        </div>
-        <div style="text-align:center">
-          <div style="font-size:0.7rem;color:var(--dim)">最新</div>
-          <div style="font-size:1.3rem;font-weight:700">${last.toFixed(1)}</div>
-        </div>
-        <div style="text-align:center">
-          <div style="font-size:0.7rem;color:var(--dim)">变化</div>
-          <div style="font-size:1.3rem;font-weight:700;color:${changeColor}">${changeStr}</div>
-        </div>
-        <div style="text-align:center">
-          <div style="font-size:0.7rem;color:var(--dim)">最高</div>
-          <div style="font-size:1.3rem;font-weight:700;color:var(--green)">${max.toFixed(1)}</div>
-        </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">首次</div><div class="stat-value">${first.toFixed(1)}</div></div>
+        <div class="stat-card"><div class="stat-label">最新</div><div class="stat-value">${last.toFixed(1)}</div></div>
+        <div class="stat-card"><div class="stat-label">变化</div><div class="stat-value" style="color:${changeColor}">${changeStr}</div></div>
+        <div class="stat-card"><div class="stat-label">最高</div><div class="stat-value" style="color:var(--green)">${max.toFixed(1)}</div></div>
       </div>
-      <div style="margin-top:12px;font-size:0.8rem;color:var(--dim);text-align:center">
+      <div style="margin-top:10px;font-size:0.76rem;color:var(--dim);text-align:center">
         ${userLabel} · 共 ${sorted.length} 条记录 · 跨度 ${allDates.length} 天
-      </div>
-    `;
+      </div>`;
   }
 }
 
 // ===== 数据导入导出 =====
 function exportData(){
-  const data = {
-    version: 2,
-    exportDate: new Date().toISOString(),
-    users: users,
-    records: records
-  };
+  const data = { version: 2, exportDate: new Date().toISOString(), users, records };
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -1138,50 +1141,32 @@ function importData(e){
     try{
       const data = JSON.parse(ev.target.result);
       if(data.version === 2){
-        // v2 格式：含 users + records
         if(confirm(`导入 ${data.users.length} 个用户、${data.records.length} 条记录？\n（将合并到现有数据，同 ID 覆盖）`)){
-          // 合并用户
           data.users.forEach(u => {
-            const idx = users.findIndex(existing => existing.id === u.id);
-            if(idx >= 0) users[idx] = u;
-            else users.push(u);
+            const idx = users.findIndex(ex => ex.id === u.id);
+            if(idx >= 0) users[idx] = u; else users.push(u);
           });
-          // 合并记录
           data.records.forEach(r => {
-            const idx = records.findIndex(existing => existing.id === r.id);
-            if(idx >= 0) records[idx] = r;
-            else records.push(r);
+            const idx = records.findIndex(ex => ex.id === r.id);
+            if(idx >= 0) records[idx] = r; else records.push(r);
           });
-          saveData();
-          updateUserBar();
-          renderHistory();
-          renderChart();
-          renderUserList();
+          saveData(); updateUserBar(); renderHistory(); renderChart(); renderUserList();
           showToast('导入成功');
         }
       }else if(Array.isArray(data)){
-        // v1 格式：纯记录数组
         if(confirm(`导入 ${data.length} 条记录？\n（将合并到现有记录）`)){
           data.forEach(r => {
             if(!r.userId) r.userId = currentUserId;
             if(!r.userName && getCurrentUser()) r.userName = getCurrentUser().name;
             if(!r.userColor && getCurrentUser()) r.userColor = getCurrentUser().color;
-            const idx = records.findIndex(existing => existing.id === r.id);
-            if(idx >= 0) records[idx] = r;
-            else records.push(r);
+            const idx = records.findIndex(ex => ex.id === r.id);
+            if(idx >= 0) records[idx] = r; else records.push(r);
           });
-          saveData();
-          renderHistory();
-          renderChart();
-          renderUserList();
+          saveData(); renderHistory(); renderChart(); renderUserList();
           showToast('导入成功');
         }
-      }else{
-        throw new Error('格式错误');
-      }
-    }catch(err){
-      showToast('文件格式错误', 'error');
-    }
+      }else throw new Error('格式错误');
+    }catch(err){ showToast('文件格式错误', 'error'); }
   };
   reader.readAsText(file);
   e.target.value = '';
@@ -1190,16 +1175,9 @@ function importData(e){
 function clearData(){
   if(!confirm('确定清空所有用户和记录？此操作不可撤销！')) return;
   if(!confirm('再次确认：真的要删除全部数据吗？')) return;
-  records = [];
-  users = [];
-  currentUserId = null;
-  saveData();
-  updateUserBar();
-  renderHistory();
-  renderChart();
-  renderUserList();
-  showUserModal();
-  showToast('已清空');
+  records = []; users = []; currentUserId = null;
+  saveData(); updateUserBar(); renderHistory(); renderChart(); renderUserList();
+  showUserModal(); showToast('已清空');
 }
 
 // ===== Toast =====
