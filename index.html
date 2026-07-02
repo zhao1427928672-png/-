@@ -16,7 +16,6 @@
   --radius-sm:10px;
   --transition:0.2s ease;
 }
-/* 暗色（默认） */
 @media (prefers-color-scheme: dark){
   :root{
     --bg:#0f1115;--bg-soft:#161920;--card:#1a1d24;--card-hover:#1f232c;
@@ -29,7 +28,6 @@
     --tab-inactive:#1a1d24;
   }
 }
-/* 亮色 */
 @media (prefers-color-scheme: light){
   :root{
     --bg:#f5f6f8;--bg-soft:#ffffff;--card:#ffffff;--card-hover:#f0f2f5;
@@ -42,43 +40,8 @@
     --tab-inactive:#e8eaed;
   }
 }
-/* 不支持 prefers-color-scheme 的回退（默认暗色） */
-:root{
-  --bg:#0f1115;--bg-soft:#161920;--card:#1a1d24;--card-hover:#1f232c;
-  --border:#2a2e38;--border-hover:#3a3f4d;
-  --text:#e8eaed;--text-secondary:#b4b8c2;--dim:#8b919e;
-  --accent:#5b9bf0;--accent-soft:#5b9bf020;
-  --accent2:#7c3aed;--green:#22c55e;--yellow:#eab308;
-  --red:#ef4444;--blue:#3b82f6;--teal:#14b8a6;--orange:#f97316;--pink:#ec4899;
-  --input-bg:#111317;--shadow:0 2px 8px rgba(0,0,0,0.3);
-  --tab-inactive:#1a1d24;
-}
 @supports (color-scheme: light dark){
   :root{ color-scheme: light dark; }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --bg:#0f1115;--bg-soft:#161920;--card:#1a1d24;--card-hover:#1f232c;
-      --border:#2a2e38;--border-hover:#3a3f4d;
-      --text:#e8eaed;--text-secondary:#b4b8c2;--dim:#8b919e;
-      --accent:#5b9bf0;--accent-soft:#5b9bf020;
-      --accent2:#7c3aed;--green:#22c55e;--yellow:#eab308;
-      --red:#ef4444;--blue:#3b82f6;--teal:#14b8a6;--orange:#f97316;--pink:#ec4899;
-      --input-bg:#111317;--shadow:0 2px 8px rgba(0,0,0,0.3);
-      --tab-inactive:#1a1d24;
-    }
-  }
-  @media (prefers-color-scheme: light){
-    :root{
-      --bg:#f5f6f8;--bg-soft:#ffffff;--card:#ffffff;--card-hover:#f0f2f5;
-      --border:#e2e5ea;--border-hover:#c8ccd4;
-      --text:#1a1d24;--text-secondary:#4a4f5a;--dim:#8b919e;
-      --accent:#2563eb;--accent-soft:#2563eb15;
-      --accent2:#7c3aed;--green:#16a34a;--yellow:#ca8a04;
-      --red:#dc2626;--blue:#2563eb;--teal:#0d9488;--orange:#ea580c;--pink:#db2777;
-      --input-bg:#f8f9fb;--shadow:0 1px 3px rgba(0,0,0,0.08);
-      --tab-inactive:#e8eaed;
-    }
-  }
 }
 
 html,body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
@@ -89,6 +52,15 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
 .header h1{font-size:1.25rem;font-weight:700;letter-spacing:-0.02em}
 .header h1 span{color:var(--accent)}
 .header .subtitle{font-size:0.72rem;color:var(--dim);margin-top:2px}
+
+/* ═══ 同步状态 ═══ */
+.sync-status{display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--dim);padding:4px 10px;border-radius:8px;background:var(--card);border:1px solid var(--border)}
+.sync-status .dot{width:8px;height:8px;border-radius:50%;transition:var(--transition)}
+.sync-status.synced .dot{background:var(--green)}
+.sync-status.syncing .dot{background:var(--yellow);animation:pulse 1s infinite}
+.sync-status.error .dot{background:var(--red)}
+.sync-status.offline .dot{background:var(--dim)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 
 /* ═══ 用户栏 ═══ */
 .user-bar{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 14px;margin-bottom:14px;box-shadow:var(--shadow)}
@@ -117,7 +89,6 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
 .textarea{resize:vertical;min-height:56px}
 .select{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238b919e'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:32px}
 
-/* 布局 */
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 @media(max-width:520px){
@@ -249,6 +220,7 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
   .setting-item{flex-direction:column;align-items:flex-start;gap:6px}
   .setting-item .input,.setting-item .select{width:100%}
   .data-btn{font-size:0.76rem;padding:8px 12px}
+  .sync-status{font-size:0.68rem;padding:3px 8px}
 }
 
 /* ═══ 平板适配 ═══ */
@@ -277,7 +249,11 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
 <div class="header">
   <div>
     <h1>👁️ <span>九阳炼目</span> · 视力追踪</h1>
-    <div class="subtitle">每日检测 · 追踪进步</div>
+    <div class="subtitle">每日检测 · 云端同步 · 追踪进步</div>
+  </div>
+  <div class="sync-status synced" id="sync-status">
+    <span class="dot"></span>
+    <span class="text">已同步</span>
   </div>
 </div>
 
@@ -497,9 +473,13 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
     <div>
       <button class="data-btn" id="btn-export">📤 导出全部数据</button>
       <button class="data-btn" id="btn-import">📥 导入数据</button>
-      <button class="data-btn" id="btn-clear" style="border-color:var(--red);color:var(--red)">🗑️ 清空所有</button>
+      <button class="data-btn" id="btn-sync-now">🔄 立即同步</button>
+      <button class="data-btn" id="btn-clear" style="border-color:var(--red);color:var(--red)">🗑️ 清空本地</button>
     </div>
     <input type="file" id="import-file" accept=".json" style="display:none">
+    <div style="margin-top:10px;font-size:0.72rem;color:var(--dim)">
+      数据自动同步到云端，所有用户共享。最后一次同步：<span id="last-sync-time">—</span>
+    </div>
   </div>
   <div class="settings-section">
     <h2>ℹ️ 五分 ↔ 小数 对照</h2>
@@ -547,6 +527,10 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
 <div class="toast" id="toast"></div>
 
 <script>
+// ===== Supabase 配置 =====
+const SUPABASE_URL = 'https://hvfisfxdjnsragvafrug.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_RL9x0TVXmjtxVWRdG7FoFA_OuMVznvr';
+
 // ===== 数据模型 =====
 const ACUITY_DATA = [
   {score:4.0,decimal:0.1,row:1},{score:4.1,decimal:0.12,row:2},
@@ -558,9 +542,9 @@ const ACUITY_DATA = [
   {score:5.2,decimal:1.5,row:13},{score:5.3,decimal:2.0,row:14},
 ];
 
-const STORAGE_KEY = 'vision_tracker_v2';
-const USERS_KEY = 'vision_tracker_users';
-const CURRENT_USER_KEY = 'vision_tracker_current_user';
+const STORAGE_KEY = 'vision_tracker_v3';
+const USERS_KEY = 'vision_tracker_users_v3';
+const CURRENT_USER_KEY = 'vision_tracker_current_user_v3';
 
 let records = [];
 let users = [];
@@ -568,8 +552,248 @@ let currentUserId = null;
 let selectedColor = '#5b9bf0';
 let historyFilter = 'all';
 let chartFilter = 'all';
+let isSyncing = false;
 
-// ===== 获取CSS变量（适配明暗模式） =====
+// ===== Supabase REST API =====
+async function sbSelect(table, params = {}) {
+  const url = new URL(`${SUPABASE_URL}/rest/v1/${table}`);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+  const res = await fetch(url, {
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+    }
+  });
+  if (!res.ok) throw new Error(`Supabase ${table}: ${res.status}`);
+  return res.json();
+}
+
+async function sbInsert(table, data) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation',
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error(`Supabase insert ${table}: ${res.status}`);
+  return res.json();
+}
+
+async function sbUpdate(table, data, filter) {
+  const url = new URL(`${SUPABASE_URL}/rest/v1/${table}`);
+  Object.entries(filter).forEach(([k, v]) => url.searchParams.set(k, `eq.${v}`));
+  const res = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation',
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error(`Supabase update ${table}: ${res.status}`);
+  return res.json();
+}
+
+async function sbDelete(table, filter) {
+  const url = new URL(`${SUPABASE_URL}/rest/v1/${table}`);
+  Object.entries(filter).forEach(([k, v]) => url.searchParams.set(k, `eq.${v}`));
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+    }
+  });
+  if (!res.ok) throw new Error(`Supabase delete ${table}: ${res.status}`);
+  return true;
+}
+
+// ===== 同步状态 =====
+function setSyncStatus(status, text) {
+  const el = document.getElementById('sync-status');
+  el.className = `sync-status ${status}`;
+  el.querySelector('.text').textContent = text;
+}
+
+function updateLastSyncTime() {
+  const now = new Date();
+  const t = `${now.getMonth()+1}/${now.getDate()} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+  const el = document.getElementById('last-sync-time');
+  if (el) el.textContent = t;
+}
+
+// ===== 云端同步 =====
+async function syncFromCloud() {
+  if (isSyncing) return;
+  isSyncing = true;
+  setSyncStatus('syncing', '同步中...');
+
+  try {
+    // 拉取用户
+    const cloudUsers = await sbSelect('vision_users', { select: '*', order: 'created_at.asc' });
+    // 拉取记录
+    const cloudRecords = await sbSelect('vision_records', { select: '*', order: 'record_date.desc' });
+
+    // 转换云端用户格式 → 本地格式
+    const newUsers = cloudUsers.map(u => ({
+      id: u.user_name.startsWith('u_') ? u.user_name : 'u_' + u.id,
+      name: u.user_name.replace(/^u_/, ''),
+      color: u.user_color || '#5b9bf0',
+      created: u.created_at,
+    }));
+
+    // 转换云端记录格式 → 本地格式
+    const newRecords = cloudRecords.map(r => ({
+      id: r.id,
+      userId: r.user_name.startsWith('u_') ? r.user_name : 'u_' + r.id,
+      userName: r.user_name.replace(/^u_/, ''),
+      userColor: r.user_color || '#5b9bf0',
+      date: r.record_date,
+      time: r.record_time || '',
+      distance: r.distance || '1.3',
+      device: r.device || '',
+      glasses: r.wearing_glasses ? '是' : '否',
+      separate: r.separate_eyes || false,
+      acuityBoth: r.score ? parseFloat(r.score) : null,
+      acuityLeft: r.left_eye_score ? parseFloat(r.left_eye_score) : null,
+      acuityRight: r.right_eye_score ? parseFloat(r.right_eye_score) : null,
+      weather: r.weather || '',
+      light: r.lighting || '',
+      practiced: r.practiced_today || '',
+      daysSince: r.days_since_practice != null ? String(r.days_since_practice) : '',
+      fatigue: r.eye_fatigue || '',
+      clarity: r.clarity || '',
+      after: r.after_feeling || '',
+      reaction: r.body_reactions ? r.body_reactions.split(',').filter(Boolean) : [],
+      notes: r.notes || '',
+      cloudId: r.id,
+    }));
+
+    // 合并：云端优先，但保留本地未同步的记录
+    const localOnlyRecords = records.filter(r => !r.cloudId);
+    records = [...newRecords, ...localOnlyRecords];
+    // 去重：同 userId + 同 date 取最新的
+    const seen = {};
+    records = records.filter(r => {
+      const key = `${r.userId}_${r.date}`;
+      if (seen[key] !== undefined) {
+        // 保留 cloudId 存在的（已同步的）
+        if (r.cloudId && !records[seen[key]].cloudId) {
+          records[seen[key]] = r;
+        }
+        return false;
+      }
+      seen[key] = records.indexOf(r);
+      return true;
+    });
+
+    // 合并用户
+    localOnlyUsers = users.filter(u => !newUsers.find(nu => nu.id === u.id));
+    users = [...newUsers, ...localOnlyUsers];
+
+    saveData();
+    updateUserBar();
+    renderHistory();
+    renderChart();
+    renderUserList();
+
+    setSyncStatus('synced', '已同步');
+    updateLastSyncTime();
+  } catch (err) {
+    console.error('Sync error:', err);
+    setSyncStatus('error', '同步失败');
+    showToast('云端同步失败，使用本地数据', 'error');
+  } finally {
+    isSyncing = false;
+  }
+}
+
+async function pushRecordToCloud(record) {
+  // 先检查用户是否在云端存在
+  const userNameWithPrefix = record.userId;
+  let cloudUser = await sbSelect('vision_users', { user_name: `eq.${userNameWithPrefix}`, select: '*', limit: '1' });
+
+  if (cloudUser.length === 0) {
+    // 创建用户
+    await sbInsert('vision_users', {
+      user_name: userNameWithPrefix,
+      user_color: record.userColor,
+    });
+  }
+
+  // 检查是否已有该日期的记录
+  const existing = await sbSelect('vision_records', {
+    user_name: `eq.${userNameWithPrefix}`,
+    record_date: `eq.${record.date}`,
+    select: 'id',
+    limit: '1'
+  });
+
+  const dbRecord = {
+    user_name: userNameWithPrefix,
+    user_color: record.userColor,
+    record_date: record.date,
+    record_time: record.time || null,
+    distance: String(record.distance),
+    device: record.device || null,
+    wearing_glasses: record.glasses === '是',
+    separate_eyes: record.separate || false,
+    weather: record.weather || null,
+    lighting: record.light || null,
+    practiced_today: record.practiced || null,
+    days_since_practice: record.daysSince ? parseInt(record.daysSince) : null,
+    score: record.acuityBoth ? String(record.acuityBoth) : null,
+    left_eye_score: record.acuityLeft ? String(record.acuityLeft) : null,
+    right_eye_score: record.acuityRight ? String(record.acuityRight) : null,
+    eye_fatigue: record.fatigue || null,
+    clarity: record.clarity || null,
+    after_feeling: record.after || null,
+    body_reactions: (record.reaction || []).join(','),
+    notes: record.notes || null,
+  };
+
+  if (existing.length > 0) {
+    // 更新
+    const updated = await sbUpdate('vision_records', dbRecord, { id: existing[0].id });
+    return updated[0]?.id || existing[0].id;
+  } else {
+    // 插入
+    const inserted = await sbInsert('vision_records', dbRecord);
+    return inserted[0]?.id;
+  }
+}
+
+async function deleteRecordFromCloud(record) {
+  if (!record.cloudId) return;
+  try {
+    await sbDelete('vision_records', { id: record.cloudId });
+  } catch (err) {
+    console.error('Delete from cloud failed:', err);
+  }
+}
+
+async function syncAllLocalToCloud() {
+  setSyncStatus('syncing', '上传中...');
+  let success = 0, fail = 0;
+  for (const r of records) {
+    try {
+      const cloudId = await pushRecordToCloud(r);
+      if (cloudId) { r.cloudId = cloudId; success++; }
+    } catch (e) { fail++; }
+  }
+  saveData();
+  await syncFromCloud();
+  if (fail === 0) showToast(`同步完成，${success} 条记录`);
+  else showToast(`同步完成：${success} 成功，${fail} 失败`, 'error');
+}
+
+// ===== 获取CSS变量 =====
 function cssVar(name){
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
@@ -611,10 +835,16 @@ function init(){
   renderChart();
   renderUserList();
 
-  // 监听主题变化，重绘图表
+  // 从云端同步
+  syncFromCloud();
+
+  // 监听主题变化
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
     renderChart();
   });
+
+  // 每 60 秒自动同步一次
+  setInterval(() => { syncFromCloud(); }, 60000);
 }
 
 function loadData(){
@@ -678,20 +908,42 @@ function renderUserList(){
   }).join('');
 }
 
-function addUser(name, color){
+async function addUser(name, color){
   if(!name.trim()) return;
-  const user = { id: 'u_' + Date.now(), name: name.trim(), color: color, created: new Date().toISOString() };
-  users.push(user); currentUserId = user.id; saveData();
+  const userId = 'u_' + Date.now();
+  const user = { id: userId, name: name.trim(), color: color, created: new Date().toISOString() };
+  users.push(user); currentUserId = userId; saveData();
   updateUserBar(); renderUserOptions(); renderUserList();
   setDefaultForm(); renderHistory(); renderChart();
-  showToast(`用户「${name}」已添加`);
+
+  // 同步用户到云端
+  try {
+    await sbInsert('vision_users', {
+      user_name: userId,
+      user_color: color,
+    });
+    showToast(`用户「${name}」已添加`);
+  } catch(e) {
+    // 可能已存在，忽略
+    showToast(`用户「${name}」已添加`);
+  }
 }
 
-function deleteUser(userId){
+async function deleteUser(userId){
   const user = users.find(u => u.id === userId);
   if(!user) return;
   const count = records.filter(r => r.userId === userId).length;
   if(!confirm(`删除用户「${user.name}」？\n将同时删除该用户的 ${count} 条记录。`)) return;
+
+  // 删除云端记录
+  try {
+    const userRecords = records.filter(r => r.userId === userId);
+    for (const r of userRecords) {
+      if (r.cloudId) await sbDelete('vision_records', { id: r.cloudId });
+    }
+    await sbDelete('vision_users', { user_name: userId });
+  } catch(e) { console.error('Cloud delete user:', e); }
+
   records = records.filter(r => r.userId !== userId);
   users = users.filter(u => u.id !== userId);
   if(currentUserId === userId) currentUserId = users.length > 0 ? users[0].id : null;
@@ -837,11 +1089,12 @@ function bindEvents(){
   document.getElementById('btn-export').addEventListener('click', exportData);
   document.getElementById('btn-import').addEventListener('click', () => document.getElementById('import-file').click());
   document.getElementById('import-file').addEventListener('change', importData);
-  document.getElementById('btn-clear').addEventListener('click', clearData);
+  document.getElementById('btn-sync-now').addEventListener('click', () => syncAllLocalToCloud());
+  document.getElementById('btn-clear').addEventListener('click', clearLocalData);
 }
 
 // ===== 提交记录 =====
-function submitRecord(){
+async function submitRecord(){
   if(!currentUserId){ showToast('请先选择用户', 'error'); showUserModal(); return; }
   const user = getCurrentUser();
   const date = document.getElementById('f-date').value;
@@ -875,13 +1128,32 @@ function submitRecord(){
   const existIdx = records.findIndex(r => r.userId === currentUserId && r.date === date);
   if(existIdx >= 0){
     if(!confirm(`${user.name} 在 ${date} 已有记录，要覆盖吗？`)) return;
+    record.cloudId = records[existIdx].cloudId;
     records[existIdx] = record;
   }else{
     records.push(record);
   }
 
   saveData();
-  showToast('记录已保存 ✅');
+  showToast('保存中...');
+
+  // 推送到云端
+  setSyncStatus('syncing', '上传中...');
+  try {
+    const cloudId = await pushRecordToCloud(record);
+    if (cloudId) {
+      const r = records.find(r => r.id === record.id);
+      if (r) r.cloudId = cloudId;
+      saveData();
+    }
+    setSyncStatus('synced', '已同步');
+    updateLastSyncTime();
+    showToast('记录已保存 ✅');
+  } catch(e) {
+    console.error('Push to cloud:', e);
+    setSyncStatus('error', '云端保存失败');
+    showToast('已保存到本地，云端同步失败', 'error');
+  }
 
   setTimeout(() => {
     document.getElementById('f-after').value = '';
@@ -899,10 +1171,11 @@ function renderUserFilter(containerId, filterVar){
   const container = document.getElementById(containerId);
   if(!container) return;
   let html = '<span class="filter-label">筛选：</span>';
-  html += `<span class="filter-chip ${eval(filterVar) === 'all' ? 'active' : ''}" data-filter="all">全部</span>`;
+  const fv = filterVar === 'historyFilter' ? historyFilter : chartFilter;
+  html += `<span class="filter-chip ${fv === 'all' ? 'active' : ''}" data-filter="all">全部</span>`;
   users.forEach(u => {
     const count = records.filter(r => r.userId === u.id).length;
-    html += `<span class="filter-chip ${eval(filterVar) === u.id ? 'active' : ''}" data-filter="${u.id}"><span class="dot" style="background:${u.color}"></span>${u.name} (${count})</span>`;
+    html += `<span class="filter-chip ${fv === u.id ? 'active' : ''}" data-filter="${u.id}"><span class="dot" style="background:${u.color}"></span>${u.name} (${count})</span>`;
   });
   container.innerHTML = html;
   container.querySelectorAll('.filter-chip').forEach(chip => {
@@ -962,10 +1235,16 @@ function renderHistory(){
   }).join('');
 }
 
-function deleteRecord(id){
+async function deleteRecord(id){
   if(!confirm('删除这条记录？')) return;
+  const record = records.find(r => r.id === id);
+  if (record && record.cloudId) {
+    setSyncStatus('syncing', '删除中...');
+    try { await deleteRecordFromCloud(record); } catch(e) {}
+  }
   records = records.filter(r => r.id !== id);
   saveData(); renderHistory(); renderChart(); renderUserList();
+  setSyncStatus('synced', '已同步');
   showToast('已删除');
 }
 
@@ -1006,7 +1285,6 @@ function renderChart(){
   const plotH = H - pad.top - pad.bottom;
   const minScore = 4.0, maxScore = 5.3;
 
-  // 网格线
   ctx.font = '10px ' + getComputedStyle(document.body).fontFamily;
   ctx.textAlign = 'left';
   for(let s = minScore; s <= maxScore + 0.01; s += 0.1){
@@ -1024,7 +1302,6 @@ function renderChart(){
     ctx.fillText(s.toFixed(1), 6, y + 3);
   }
 
-  // 按用户分组
   let lines = [];
   if(chartFilter === 'all'){
     users.forEach(u => {
@@ -1049,7 +1326,6 @@ function renderChart(){
   const allDates = [...new Set(lines.flatMap(l => l.data.map(d => d.date)))].sort();
   const step = plotW / Math.max(allDates.length - 1, 1);
 
-  // X轴标签
   ctx.fillStyle = colors.dim;
   ctx.textAlign = 'center';
   allDates.forEach((date, i) => {
@@ -1059,7 +1335,6 @@ function renderChart(){
     }
   });
 
-  // 画线
   function drawLine(line){
     ctx.strokeStyle = line.color;
     ctx.lineWidth = 2;
@@ -1074,7 +1349,6 @@ function renderChart(){
       else ctx.lineTo(x, y);
     });
     ctx.stroke();
-    // 画点
     line.data.forEach(d => {
       const i = allDates.indexOf(d.date);
       if(i < 0 || d.val === null) return;
@@ -1088,7 +1362,6 @@ function renderChart(){
   }
   lines.forEach(drawLine);
 
-  // 图例
   ctx.textAlign = 'left';
   ctx.font = '11px ' + getComputedStyle(document.body).fontFamily;
   let legendX = pad.left + 8;
@@ -1098,7 +1371,6 @@ function renderChart(){
     legendX += ctx.measureText(`● ${line.name}`).width + 18;
   });
 
-  // 统计摘要
   const allScores = sorted.map(r => r.acuityBoth || r.acuityLeft).filter(s => s);
   if(allScores.length > 0){
     const first = allScores[0], last = allScores[allScores.length - 1], max = Math.max(...allScores);
@@ -1122,7 +1394,7 @@ function renderChart(){
 
 // ===== 数据导入导出 =====
 function exportData(){
-  const data = { version: 2, exportDate: new Date().toISOString(), users, records };
+  const data = { version: 3, exportDate: new Date().toISOString(), users, records };
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -1140,8 +1412,8 @@ function importData(e){
   reader.onload = ev => {
     try{
       const data = JSON.parse(ev.target.result);
-      if(data.version === 2){
-        if(confirm(`导入 ${data.users.length} 个用户、${data.records.length} 条记录？\n（将合并到现有数据，同 ID 覆盖）`)){
+      if(data.version >= 2){
+        if(confirm(`导入 ${data.users.length} 个用户、${data.records.length} 条记录？\n（将合并到现有数据）`)){
           data.users.forEach(u => {
             const idx = users.findIndex(ex => ex.id === u.id);
             if(idx >= 0) users[idx] = u; else users.push(u);
@@ -1151,19 +1423,8 @@ function importData(e){
             if(idx >= 0) records[idx] = r; else records.push(r);
           });
           saveData(); updateUserBar(); renderHistory(); renderChart(); renderUserList();
-          showToast('导入成功');
-        }
-      }else if(Array.isArray(data)){
-        if(confirm(`导入 ${data.length} 条记录？\n（将合并到现有记录）`)){
-          data.forEach(r => {
-            if(!r.userId) r.userId = currentUserId;
-            if(!r.userName && getCurrentUser()) r.userName = getCurrentUser().name;
-            if(!r.userColor && getCurrentUser()) r.userColor = getCurrentUser().color;
-            const idx = records.findIndex(ex => ex.id === r.id);
-            if(idx >= 0) records[idx] = r; else records.push(r);
-          });
-          saveData(); renderHistory(); renderChart(); renderUserList();
-          showToast('导入成功');
+          showToast('导入成功，正在同步到云端...');
+          syncAllLocalToCloud();
         }
       }else throw new Error('格式错误');
     }catch(err){ showToast('文件格式错误', 'error'); }
@@ -1172,12 +1433,14 @@ function importData(e){
   e.target.value = '';
 }
 
-function clearData(){
-  if(!confirm('确定清空所有用户和记录？此操作不可撤销！')) return;
-  if(!confirm('再次确认：真的要删除全部数据吗？')) return;
+function clearLocalData(){
+  if(!confirm('确定清空本地数据？云端数据不受影响。\n下次同步会从云端恢复。')) return;
   records = []; users = []; currentUserId = null;
-  saveData(); updateUserBar(); renderHistory(); renderChart(); renderUserList();
-  showUserModal(); showToast('已清空');
+  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(USERS_KEY);
+  localStorage.removeItem(CURRENT_USER_KEY);
+  showToast('本地已清空，正在从云端恢复...');
+  setTimeout(() => { syncFromCloud(); }, 500);
 }
 
 // ===== Toast =====
