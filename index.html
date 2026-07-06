@@ -79,21 +79,22 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
 /* ═══ 表单 ═══ */
 .form-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
 .form-section h2{font-size:0.82rem;color:var(--dim);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em}
-.field-group{margin-bottom:14px}
+.field-group{margin-bottom:14px;min-width:0}
 .field-group:last-child{margin-bottom:0}
 .field-label{font-size:0.78rem;color:var(--dim);margin-bottom:6px;display:flex;align-items:center;gap:4px}
 .field-label .icon{font-size:0.88rem}
 
-.input,.select,.textarea{width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:0.88rem;font-family:inherit;transition:var(--transition)}
+.input,.select,.textarea{width:100%;max-width:100%;min-width:0;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:0.88rem;font-family:inherit;transition:var(--transition)}
 .input:focus,.select:focus,.textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .textarea{resize:vertical;min-height:56px}
 .select{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238b919e'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:32px}
 
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.row-3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:10px}
 @media(max-width:520px){
-  .row{grid-template-columns:1fr}
-  .row-3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .row-3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  input[type="date"].input,input[type="time"].input{font-size:0.78rem;padding:9px 8px;letter-spacing:-0.02em}
 }
 
 /* ═══ Chip 选择器 ═══ */
@@ -1231,7 +1232,11 @@ function updatePracticedTimeVisibility(){
   const isOtherTime = getChipValue('f-practiced') === '其他时间';
   const timeInput = document.getElementById('f-practiced-time');
   timeInput.hidden = !isOtherTime;
-  if (!isOtherTime) timeInput.value = '';
+  if (isOtherTime) {
+    if (!timeInput.value) timeInput.value = document.getElementById('f-time').value || new Date().toTimeString().slice(0,5);
+  } else {
+    timeInput.value = '';
+  }
 }
 
 function getPracticedValue(){
