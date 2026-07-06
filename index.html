@@ -88,10 +88,10 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
 .input:focus,.select:focus,.textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .textarea{resize:vertical;min-height:56px}
 .select{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238b919e'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:32px}
-input[type="time"].input{-webkit-appearance:none;appearance:none}
+input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appearance:none}
 .date-time-row{margin-bottom:20px}
 .row-3.date-time-row{grid-template-columns:1fr}
-.date-time-row .input{height:42px;text-align:center}
+.date-time-row .input{min-height:42px;text-align:center;line-height:normal}
 
 .row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
 .row-3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:10px}
