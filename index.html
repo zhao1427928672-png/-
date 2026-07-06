@@ -102,6 +102,8 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
 .chip:active{transform:scale(0.95)}
 .chip.selected{border-color:var(--accent);color:var(--accent);font-weight:600;background:var(--accent-soft)}
 .chips-multi .chip.selected{border-color:var(--accent2);color:var(--accent2);background:var(--accent2)15}
+.inline-time{margin-top:8px;max-width:180px}
+.inline-time[hidden]{display:none}
 
 /* ═══ 视力选择网格 ═══ */
 .acuity-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:6px}
@@ -312,8 +314,8 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
     <div class="field-group">
       <div class="field-label">🔍 左右单测？</div>
       <div class="chips" id="f-separate">
-        <div class="chip selected" data-val="no">不分开测（双眼）</div>
-        <div class="chip" data-val="yes">分开测（左/右）</div>
+        <div class="chip" data-val="no">不分开测（双眼）</div>
+        <div class="chip selected" data-val="yes">分开测（左/右）</div>
       </div>
     </div>
   </div>
@@ -324,27 +326,37 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
       <div class="field-label">☀️ 天气</div>
       <div class="chips" id="f-weather">
         <div class="chip" data-val="晴">☀️ 晴</div>
+        <div class="chip" data-val="多云">⛅ 多云</div>
         <div class="chip" data-val="阴">☁️ 阴</div>
         <div class="chip" data-val="雨">🌧️ 雨</div>
-        <div class="chip" data-val="多云">⛅ 多云</div>
       </div>
     </div>
     <div class="field-group">
       <div class="field-label">💡 光线</div>
       <div class="chips" id="f-light">
-        <div class="chip" data-val="自然光(室内)">自然光(室内)</div>
-        <div class="chip" data-val="自然光(室外)">自然光(室外)</div>
-        <div class="chip" data-val="灯光">灯光</div>
+        <div class="chip" data-val="自然光室内">自然光室内</div>
+        <div class="chip" data-val="自然光室外">自然光室外</div>
+        <div class="chip" data-val="窗边自然光">窗边自然光</div>
+        <div class="chip" data-val="阳台自然光">阳台自然光</div>
+        <div class="chip" data-val="室内灯光">室内灯光</div>
+        <div class="chip" data-val="台灯">台灯</div>
+        <div class="chip" data-val="弱光">弱光</div>
+        <div class="chip" data-val="夜间灯光">夜间灯光</div>
+        <div class="chip" data-val="强光/刺眼">强光/刺眼</div>
       </div>
     </div>
     <div class="field-group">
       <div class="field-label">🧘 当日练眼？</div>
       <div class="chips" id="f-practiced">
-        <div class="chip" data-val="傍晚练了">✅ 傍晚练了</div>
-        <div class="chip" data-val="早上练了">✅ 早上练了</div>
+        <div class="chip" data-val="早上练了">早上</div>
+        <div class="chip" data-val="上午练了">上午</div>
+        <div class="chip" data-val="下午练了">下午</div>
+        <div class="chip" data-val="傍晚练了">傍晚</div>
+        <div class="chip" data-val="晚上练了">晚上</div>
+        <div class="chip" data-val="其他时间">其他时间</div>
         <div class="chip" data-val="没练">❌ 没练</div>
-        <div class="chip" data-val="其他时间">⏰ 其他时间</div>
       </div>
+      <input type="time" class="input inline-time" id="f-practiced-time" aria-label="其他练眼时间" hidden>
     </div>
     <div class="field-group">
       <div class="field-label">📅 距上次练眼（天）</div>
@@ -354,16 +366,16 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
 
   <div class="form-section">
     <h2>📊 检测结果</h2>
-    <div class="field-group" id="acuity-section">
+    <div class="field-group" id="acuity-section" style="display:none">
       <div class="field-label">👁️ 双眼视力（选你看到的最小行）</div>
       <div class="acuity-grid" id="acuity-grid"></div>
       <div style="font-size:0.7rem;color:var(--dim);margin-top:6px">每行全部指对才算通过</div>
     </div>
-    <div class="field-group" id="acuity-left-section" style="display:none">
+    <div class="field-group" id="acuity-left-section">
       <div class="field-label">👁️ 左眼视力</div>
       <div class="acuity-grid" id="acuity-grid-left"></div>
     </div>
-    <div class="field-group" id="acuity-right-section" style="display:none">
+    <div class="field-group" id="acuity-right-section">
       <div class="field-label">👁️ 右眼视力</div>
       <div class="acuity-grid" id="acuity-grid-right"></div>
     </div>
@@ -988,6 +1000,8 @@ async function init(){
   buildAcuityGrid('acuity-grid-left','left');
   buildAcuityGrid('acuity-grid-right','right');
   bindEvents();
+  updateSeparateAcuitySections();
+  updatePracticedTimeVisibility();
 
   // 先尝试从云端同步，同步完成后再决定是否弹窗
   // 如果离线，跳过同步直接显示本地数据
@@ -1206,6 +1220,27 @@ function getMultiChipValues(containerId){
   return Array.from(document.querySelectorAll(`#${containerId} .chip.selected`)).map(s => s.dataset.val);
 }
 
+function updateSeparateAcuitySections(){
+  const isSeparate = getChipValue('f-separate') === 'yes';
+  document.getElementById('acuity-section').style.display = isSeparate ? 'none' : 'block';
+  document.getElementById('acuity-left-section').style.display = isSeparate ? 'block' : 'none';
+  document.getElementById('acuity-right-section').style.display = isSeparate ? 'block' : 'none';
+}
+
+function updatePracticedTimeVisibility(){
+  const isOtherTime = getChipValue('f-practiced') === '其他时间';
+  const timeInput = document.getElementById('f-practiced-time');
+  timeInput.hidden = !isOtherTime;
+  if (!isOtherTime) timeInput.value = '';
+}
+
+function getPracticedValue(){
+  const practiced = getChipValue('f-practiced');
+  if (practiced !== '其他时间') return practiced;
+  const t = document.getElementById('f-practiced-time').value;
+  return t ? `其他时间 ${t}` : '其他时间';
+}
+
 // ===== 表单默认值 =====
 function setDefaultForm(){
   const now = new Date();
@@ -1225,6 +1260,9 @@ function setDefaultForm(){
       document.getElementById('f-days-since').value = '';
     }
   }
+
+  updateSeparateAcuitySections();
+  updatePracticedTimeVisibility();
 }
 
 // ===== 事件绑定 =====
@@ -1247,9 +1285,13 @@ function bindEvents(){
   document.getElementById('f-separate').addEventListener('click', e => {
     const chip = e.target.closest('.chip');
     if(!chip) return;
-    const isSeparate = chip.dataset.val === 'yes';
-    document.getElementById('acuity-left-section').style.display = isSeparate ? 'block' : 'none';
-    document.getElementById('acuity-right-section').style.display = isSeparate ? 'block' : 'none';
+    updateSeparateAcuitySections();
+  });
+
+  document.getElementById('f-practiced').addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if(!chip) return;
+    updatePracticedTimeVisibility();
   });
 
   document.getElementById('submit-btn').addEventListener('click', submitRecord);
@@ -1304,15 +1346,23 @@ async function submitRecord(){
   const acuityBoth = getSelectedAcuity('acuity-grid');
   const acuityLeft = separate === 'yes' ? getSelectedAcuity('acuity-grid-left') : null;
   const acuityRight = separate === 'yes' ? getSelectedAcuity('acuity-grid-right') : null;
+  const practiced = getChipValue('f-practiced');
+  const practicedTime = document.getElementById('f-practiced-time').value;
 
-  if(!acuityBoth && !acuityLeft){ showToast('请选择视力结果', 'error'); return; }
+  if(separate === 'yes'){
+    if(!acuityLeft || !acuityRight){ showToast('请选择左眼和右眼视力结果', 'error'); return; }
+  }else if(!acuityBoth){
+    showToast('请选择视力结果', 'error'); return;
+  }
+
+  if(practiced === '其他时间' && !practicedTime){ showToast('请选择具体练眼时间', 'error'); return; }
 
   const record = {
     id: createRecordId(), userId: currentUserId, userName: user.name, userColor: user.color,
     date, time, distance, device, glasses, separate: separate === 'yes',
     acuityBoth, acuityLeft, acuityRight,
     weather: getChipValue('f-weather'), light: getChipValue('f-light'),
-    practiced: getChipValue('f-practiced'),
+    practiced: getPracticedValue(),
     daysSince: document.getElementById('f-days-since').value || '',
     fatigue: getChipValue('f-fatigue'), clarity: getChipValue('f-clarity'),
     after: document.getElementById('f-after').value,
@@ -1347,8 +1397,10 @@ async function submitRecord(){
   setTimeout(() => {
     document.getElementById('f-after').value = '';
     document.getElementById('f-notes').value = '';
+    document.getElementById('f-practiced-time').value = '';
     document.querySelectorAll('.acuity-cell').forEach(c => c.classList.remove('selected'));
     document.querySelectorAll('#f-reaction .chip').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#f-practiced .chip').forEach(c => c.classList.remove('selected'));
     setDefaultForm();
   }, 500);
 
