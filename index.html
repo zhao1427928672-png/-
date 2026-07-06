@@ -94,7 +94,8 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
 @media(max-width:520px){
   .row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .row-3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-  input[type="date"].input,input[type="time"].input{font-size:0.78rem;padding:9px 8px;letter-spacing:-0.02em}
+  .date-time-row{padding-right:0}
+  .compact-native-input{font-size:0.78rem;padding:9px 8px;letter-spacing:-0.02em}
 }
 
 /* ═══ Chip 选择器 ═══ */
@@ -279,14 +280,14 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
 <div class="page active" id="page-record">
   <div class="form-section">
     <h2>📐 测试设置</h2>
-    <div class="row">
+    <div class="row-3 date-time-row">
       <div class="field-group">
         <div class="field-label">📅 日期</div>
-        <input type="date" class="input" id="f-date">
+        <input type="date" class="input compact-native-input" id="f-date">
       </div>
       <div class="field-group">
         <div class="field-label">⏰ 时间</div>
-        <input type="time" class="input" id="f-time">
+        <input type="time" class="input compact-native-input" id="f-time">
       </div>
     </div>
     <div class="row-3">
