@@ -83,6 +83,7 @@ body{min-height:100vh;padding:16px;max-width:860px;margin:0 auto;padding-bottom:
 .field-group:last-child{margin-bottom:0}
 .field-label{font-size:0.78rem;color:var(--dim);margin-bottom:6px;display:flex;align-items:center;gap:4px}
 .field-label .icon{font-size:0.88rem}
+.section-hidden{display:none!important}
 
 .input,.select,.textarea{width:100%;max-width:100%;min-width:0;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:0.88rem;font-family:inherit;line-height:1.4;min-height:42px;transition:var(--transition)}
 .input:focus,.select:focus,.textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
@@ -108,8 +109,41 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
 .chip:active{transform:scale(0.95)}
 .chip.selected{border-color:var(--accent);color:var(--accent);font-weight:600;background:var(--accent-soft)}
 .chips-multi .chip.selected{border-color:var(--accent2);color:var(--accent2);background:var(--accent2)15}
+.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mode-card{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--input-bg);cursor:pointer;transition:var(--transition);text-align:left}
+.mode-card .mode-icon{font-size:1.45rem;line-height:1}
+.mode-card .mode-title{font-weight:700;font-size:0.88rem;color:var(--text);display:block}
+.mode-card .mode-sub{font-size:0.68rem;color:var(--dim);margin-top:2px;white-space:nowrap;display:block}
+.mode-card.selected{border-color:var(--accent);background:linear-gradient(135deg,var(--accent-soft),rgba(167,139,250,0.10));box-shadow:0 8px 22px rgba(91,155,240,0.12)}
+.mode-card.selected .mode-title{color:var(--accent)}
+.record-preview{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:linear-gradient(135deg,var(--accent-soft),rgba(91,155,240,0.05));border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 11px;margin-top:10px;font-size:0.76rem;color:var(--text-secondary)}
+.record-preview .preview-pill{border-radius:999px;background:var(--card);border:1px solid var(--border);padding:3px 8px;color:var(--text)}
+.note-details{margin-top:10px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;background:var(--input-bg)}
+.note-details summary{cursor:pointer;list-style:none;color:var(--text-secondary);font-size:0.78rem;font-weight:600}
+.note-details summary::-webkit-details-marker{display:none}
+.condition-summary{margin-top:10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--input-bg);padding:10px 12px}
+.condition-summary>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:0.78rem;font-weight:700;color:var(--text-secondary)}
+.condition-summary>summary::-webkit-details-marker{display:none}
+.condition-summary>summary::after{content:'修改';font-size:0.68rem;color:var(--accent);font-weight:600}
+.condition-summary[open]>summary{margin-bottom:10px}
+.condition-summary[open]>summary::after{content:'收起'}
+.condition-summary-text{font-weight:500;color:var(--dim);margin-left:6px}
+.section-mini-title{font-size:0.78rem;font-weight:700;color:var(--text-secondary);margin-bottom:10px}
 .inline-time{margin-top:8px;max-width:180px}
 .inline-time[hidden]{display:none}
+.practice-details{border:1px dashed var(--border);border-radius:var(--radius-sm);padding:10px 12px;background:var(--input-bg)}
+.practice-details[open]{border-color:var(--accent);background:var(--accent-soft)}
+.practice-details > summary{cursor:pointer;color:var(--accent);font-size:0.8rem;font-weight:600;list-style:none;display:flex;align-items:center;gap:6px}
+.practice-details > summary::-webkit-details-marker{display:none}
+.practice-details > summary::after{content:'展开';margin-left:auto;font-size:0.68rem;color:var(--dim);font-weight:400}
+.practice-details[open] > summary::after{content:'收起'}
+.practice-details-body{margin-top:12px}
+.nested-details{border-top:1px solid var(--border);padding-top:10px;margin-top:10px}
+.nested-details > summary{color:var(--text-secondary);font-size:0.76rem;font-weight:600}
+.nested-details > summary::after{content:'展开';margin-left:auto;font-size:0.66rem;color:var(--dim);font-weight:400}
+.nested-details[open] > summary::after{content:'收起'}
+.nested-details-body{margin-top:10px}
+.tracking-hint{font-size:0.7rem;color:var(--dim);margin-top:6px;line-height:1.5}
 
 /* ═══ 视力选择网格 ═══ */
 .acuity-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:6px}
@@ -118,6 +152,12 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
 .acuity-cell.selected{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:700;transform:scale(1.05)}
 .acuity-cell .small{font-size:0.6rem;color:var(--dim);margin-top:2px}
 .acuity-cell.selected .small{color:rgba(255,255,255,0.75)}
+.acuity-card{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--input-bg);padding:10px 10px 12px;margin-bottom:10px}
+.acuity-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px}
+.acuity-card-title{font-size:0.82rem;font-weight:800;color:var(--text);display:flex;align-items:center;gap:6px}
+.acuity-card-value{font-size:1.15rem;font-weight:800;color:var(--accent);min-width:42px;text-align:right}
+.acuity-card-hint{font-size:0.68rem;color:var(--dim);margin-top:6px;text-align:center}
+.acuity-card.compact .acuity-grid{margin-top:0}
 
 /* ═══ 提交按钮 ═══ */
 .submit-btn{width:100%;padding:14px;border:none;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:0.92rem;font-weight:600;cursor:pointer;transition:var(--transition);margin-top:4px;font-family:inherit;box-shadow:var(--shadow)}
@@ -133,6 +173,23 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
 .history-item .meta{font-size:0.74rem;color:var(--dim);display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:6px}
 .history-item .meta-item{display:flex;align-items:center;gap:3px}
 .history-item .notes{margin-top:8px;font-size:0.78rem;color:var(--text-secondary);padding-top:8px;border-top:1px solid var(--border)}
+.history-day{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden}
+.history-day>summary{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;cursor:pointer;padding:12px 14px;list-style:none}
+.history-day>summary::-webkit-details-marker{display:none}
+.history-day[open]>summary{border-bottom:1px solid var(--border)}
+.history-day-date{font-size:0.92rem;font-weight:700;color:var(--text)}
+.history-day-summary{display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;white-space:nowrap}
+.history-chip{font-size:0.7rem;border-radius:8px;border:1px solid var(--border);background:var(--input-bg);padding:2px 6px;color:var(--text-secondary);display:inline-flex;align-items:center;gap:3px}
+.history-chip.main{font-weight:800;color:var(--accent);background:var(--accent-soft);border-color:rgba(91,155,240,.35)}
+.history-chip.practice{color:var(--accent);background:rgba(91,155,240,.08);border-color:rgba(91,155,240,.22)}
+.history-chip.good{color:var(--green);background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.22)}
+.history-chip.warn{color:#d97706;background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.22)}
+.history-chip.risk{color:var(--red);background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.22)}
+.status-dot{width:6px;height:6px;border-radius:50%;display:inline-block;background:currentColor}
+.history-day-count{font-size:0.68rem;color:var(--dim);border:1px solid var(--border);border-radius:999px;padding:2px 7px}
+.history-day-body{padding:10px}
+.history-day-body .history-item{box-shadow:none;margin-bottom:8px}
+.history-day-body .history-item:last-child{margin-bottom:0}
 .history-item .delete-btn{background:transparent;border:none;color:var(--red);font-size:0.72rem;cursor:pointer;opacity:0.4;transition:var(--transition);font-family:inherit;margin-top:6px}
 .history-item .delete-btn:hover{opacity:1}
 
@@ -147,10 +204,27 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
 .chart-container{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
 .chart-container h2{font-size:0.82rem;color:var(--dim);margin-bottom:12px;font-weight:600}
 #trendChart{width:100%;height:260px;display:block}
+.heatmap-strip{display:flex;align-items:flex-end;gap:4px;margin-top:10px;padding:8px 4px 2px;border-top:1px solid var(--border);min-height:38px;overflow-x:auto}
+.heat-cell{min-width:12px;border-radius:4px;background:var(--border);opacity:.8;position:relative}
+.heat-cell.l0{height:7px;background:var(--border)}
+.heat-cell.l1{height:12px;background:rgba(91,155,240,.45)}
+.heat-cell.l2{height:18px;background:rgba(91,155,240,.70)}
+.heat-cell.l3{height:24px;background:var(--accent)}
+.heat-cell.risk::after{content:'';position:absolute;right:-2px;top:-3px;width:5px;height:5px;border-radius:50%;background:var(--red)}
+.heatmap-caption{font-size:0.68rem;color:var(--dim);margin-top:4px;text-align:center}
+.trend-judgment-title{font-size:0.8rem;color:var(--dim);margin-bottom:6px}
+.trend-judgment-main{font-size:1.28rem;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px}
+.trend-judgment-main.good{color:var(--green)}
+.trend-judgment-main.warn{color:#d97706}
+.trend-judgment-main.risk{color:var(--red)}
+.trend-judgment-reason{font-size:0.76rem;color:var(--text-secondary);margin-top:6px;line-height:1.5}
 
 /* ═══ 设置 ═══ */
 .settings-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
 .settings-section h2{font-size:0.82rem;color:var(--dim);margin-bottom:12px;font-weight:600}
+.settings-summary{cursor:pointer;list-style:none;font-size:0.9rem;font-weight:700;color:var(--text);margin-bottom:10px}
+.settings-summary::-webkit-details-marker{display:none}
+.settings-section:not([open]) .settings-summary{margin-bottom:0}
 .setting-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);gap:10px}
 .setting-item:last-child{border-bottom:none}
 .setting-item label{font-size:0.84rem;flex-shrink:0}
@@ -245,6 +319,7 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
 .stat-card{text-align:center;padding:10px 6px}
 .stat-card .stat-label{font-size:0.68rem;color:var(--dim)}
 .stat-card .stat-value{font-size:1.25rem;font-weight:700;margin-top:2px}
+.stat-footnote{margin-top:10px;font-size:0.76rem;color:var(--dim);text-align:center;line-height:1.5}
 
 /* ═══ 对照表 ═══ */
 .acuity-table{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:0.72rem;color:var(--dim)}
@@ -284,7 +359,14 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
 <!-- ════════ 记录页 ════════ -->
 <div class="page active" id="page-record">
   <div class="form-section">
-    <h2>📐 测试设置</h2>
+    <h2>📐 记录设置</h2>
+    <div class="field-group">
+      <div class="field-label">🧾 记录类型</div>
+      <div class="chips mode-cards" id="f-record-type">
+        <div class="chip mode-card selected" data-val="test"><span class="mode-icon">👁️</span><span><span class="mode-title">视力检测</span><span class="mode-sub">固定场景 · 双/左/右</span></span></div>
+        <div class="chip mode-card" data-val="practice"><span class="mode-icon">🧘</span><span><span class="mode-title">练眼记录</span><span class="mode-sub">户外练眼 · 体感</span></span></div>
+      </div>
+    </div>
     <div class="row-3 date-time-row">
       <div class="field-group">
         <div class="field-label">📅 日期</div>
@@ -295,42 +377,49 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
         <input type="time" class="input compact-native-input" id="f-time">
       </div>
     </div>
-    <div class="row-3">
-      <div class="field-group">
-        <div class="field-label">📏 距离(米)</div>
-        <input type="number" class="input" id="f-distance" value="1.3" step="0.1">
+    <div id="test-settings-fields">
+    <div class="condition-summary" id="condition-panel">
+      <div class="section-mini-title">检测条件 <span class="condition-summary-text" id="condition-summary-text">1.3m · iPad mini 7 · 戴镜 · 左/右</span></div>
+      <div class="row-3">
+        <div class="field-group">
+          <div class="field-label">📏 距离(米)</div>
+          <input type="number" class="input" id="f-distance" value="1.3" step="0.1">
+        </div>
+        <div class="field-group">
+          <div class="field-label">📱 设备</div>
+          <select class="select" id="f-device">
+            <option value="iPad mini 7">iPad mini 7</option>
+            <option value="iPad">iPad</option>
+            <option value="iPhone">iPhone</option>
+            <option value="手机">手机</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <div class="field-label">👓 戴镜</div>
+          <select class="select" id="f-glasses">
+            <option value="是">✅ 戴眼镜</option>
+            <option value="否">❌ 不戴</option>
+          </select>
+        </div>
       </div>
       <div class="field-group">
-        <div class="field-label">📱 设备</div>
-        <select class="select" id="f-device">
-          <option value="iPad mini 7">iPad mini 7</option>
-          <option value="iPad">iPad</option>
-          <option value="iPhone">iPhone</option>
-          <option value="手机">手机</option>
-          <option value="其他">其他</option>
-        </select>
-      </div>
-      <div class="field-group">
-        <div class="field-label">👓 戴镜</div>
-        <select class="select" id="f-glasses">
-          <option value="是">✅ 戴眼镜</option>
-          <option value="否">❌ 不戴</option>
-        </select>
+        <div class="field-label">🔍 左右单测？</div>
+        <div class="chips" id="f-separate">
+          <div class="chip" data-val="no">不分开测（双眼）</div>
+          <div class="chip selected" data-val="yes">分开测（左/右）</div>
+        </div>
       </div>
     </div>
-    <div class="field-group">
-      <div class="field-label">🔍 左右单测？</div>
-      <div class="chips" id="f-separate">
-        <div class="chip" data-val="no">不分开测（双眼）</div>
-        <div class="chip selected" data-val="yes">分开测（左/右）</div>
-      </div>
     </div>
   </div>
 
-  <div class="form-section">
-    <h2>🌤️ 环境</h2>
-    <div class="field-group">
-      <div class="field-label">☀️ 天气</div>
+  <div class="form-section" id="environment-section">
+    <h2>环境与练眼</h2>
+    <div class="condition-summary" id="environment-panel">
+      <div class="section-mini-title">环境 <span class="condition-summary-text" id="environment-summary-text">天气 · 光线</span></div>
+      <div class="field-group">
+        <div class="field-label">天气</div>
       <div class="chips" id="f-weather">
         <div class="chip" data-val="晴">☀️ 晴</div>
         <div class="chip" data-val="多云">⛅ 多云</div>
@@ -352,88 +441,173 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
         <div class="chip" data-val="强光/刺眼">强光/刺眼</div>
       </div>
     </div>
+    </div>
+    <div id="practice-fields">
     <div class="field-group">
-      <div class="field-label">🧘 当日练眼？</div>
+      <div class="field-label">🧘 今天练眼</div>
       <div class="chips" id="f-practiced">
-        <div class="chip" data-val="早上练了">早上</div>
-        <div class="chip" data-val="上午练了">上午</div>
-        <div class="chip" data-val="下午练了">下午</div>
-        <div class="chip" data-val="傍晚练了">傍晚</div>
-        <div class="chip" data-val="晚上练了">晚上</div>
-        <div class="chip" data-val="其他时间">其他时间</div>
+        <div class="chip" data-val="早上练了">🌅 早</div>
+        <div class="chip" data-val="上午练了">☀️ 午</div>
+        <div class="chip" data-val="下午练了">🌤 下午</div>
+        <div class="chip" data-val="傍晚练了">🌇 傍晚</div>
+        <div class="chip" data-val="晚上练了">🌙 晚</div>
+        <div class="chip" data-val="其他时间">⋯ 其他</div>
         <div class="chip" data-val="没练">❌ 没练</div>
       </div>
       <input type="time" class="input inline-time" id="f-practiced-time" aria-label="其他练眼时间" hidden>
     </div>
     <div class="field-group">
-      <div class="field-label">📅 距上次练眼（天）</div>
-      <input type="number" class="input" id="f-days-since" placeholder="自动计算" step="1" style="width:120px">
+      <div class="field-label">⏱️ 练了多久</div>
+      <div class="chips" id="f-practice-duration">
+        <div class="chip" data-val="未练">未练</div>
+        <div class="chip" data-val="5分钟内">5m</div>
+        <div class="chip" data-val="5-10分钟">10m</div>
+        <div class="chip" data-val="10-20分钟">20m</div>
+        <div class="chip" data-val="20-30分钟">30m</div>
+        <div class="chip" data-val="30分钟以上">30m+</div>
+        <div class="chip" data-val="自定义">自定义</div>
+      </div>
+      <input type="number" class="input inline-time" id="f-practice-minutes" min="0" max="120" step="1" placeholder="自定义分钟" hidden>
+    </div>
+    <input type="hidden" id="f-days-since" value="">
     </div>
   </div>
 
-  <div class="form-section">
+  <div class="form-section" id="acuity-result-section">
     <h2>📊 检测结果</h2>
-    <div class="field-group" id="acuity-section" style="display:none">
-      <div class="field-label">👁️ 双眼视力（选你看到的最小行）</div>
+    <div class="acuity-card compact" id="acuity-section">
+      <div class="acuity-card-head">
+        <div class="acuity-card-title">👁️ 双眼</div>
+        <div class="acuity-card-value" id="acuity-value-both">—</div>
+      </div>
       <div class="acuity-grid" id="acuity-grid"></div>
-      <div style="font-size:0.7rem;color:var(--dim);margin-top:6px">每行全部指对才算通过</div>
+      <div class="acuity-card-hint">每行全部指对才算通过</div>
     </div>
-    <div class="field-group" id="acuity-left-section">
-      <div class="field-label">👁️ 左眼视力</div>
+    <div class="acuity-card compact" id="acuity-left-section">
+      <div class="acuity-card-head">
+        <div class="acuity-card-title">L 左眼</div>
+        <div class="acuity-card-value" id="acuity-value-left">—</div>
+      </div>
       <div class="acuity-grid" id="acuity-grid-left"></div>
     </div>
-    <div class="field-group" id="acuity-right-section">
-      <div class="field-label">👁️ 右眼视力</div>
+    <div class="acuity-card compact" id="acuity-right-section">
+      <div class="acuity-card-head">
+        <div class="acuity-card-title">R 右眼</div>
+        <div class="acuity-card-value" id="acuity-value-right">—</div>
+      </div>
       <div class="acuity-grid" id="acuity-grid-right"></div>
     </div>
   </div>
 
-  <div class="form-section">
+  <div class="form-section" id="status-section">
     <h2>😌 状态</h2>
     <div class="field-group">
-      <div class="field-label">👀 测前眼疲劳</div>
+      <div class="field-label">👀 测前状态</div>
       <div class="chips" id="f-fatigue">
-        <div class="chip" data-val="酸">酸</div>
-        <div class="chip" data-val="胀">胀</div>
-        <div class="chip" data-val="干">干</div>
-        <div class="chip" data-val="正常">正常</div>
-        <div class="chip" data-val="舒适">舒适</div>
+        <div class="chip" data-val="酸">😣 酸</div>
+        <div class="chip" data-val="胀">💢 胀</div>
+        <div class="chip" data-val="干">🏜 干</div>
+        <div class="chip" data-val="累">😴 累</div>
+        <div class="chip" data-val="正常">🙂 正常</div>
+        <div class="chip" data-val="舒适">😌 舒适</div>
       </div>
     </div>
     <div class="field-group">
-      <div class="field-label">✨ 测时清晰感</div>
+      <div class="field-label">✨ 清晰感</div>
       <div class="chips" id="f-clarity">
-        <div class="chip" data-val="模糊">模糊</div>
-        <div class="chip" data-val="一般">一般</div>
-        <div class="chip" data-val="清晰">清晰</div>
-        <div class="chip" data-val="偶尔闪现">偶尔闪现</div>
+        <div class="chip" data-val="模糊">🌫 模糊</div>
+        <div class="chip" data-val="一般">👁 一般</div>
+        <div class="chip" data-val="清晰">✨ 清晰</div>
+        <div class="chip" data-val="很清晰">🌟 很清晰</div>
+        <div class="chip" data-val="偶尔闪现">⚡ 闪现</div>
       </div>
     </div>
-    <div class="field-group">
-      <div class="field-label">📝 测后感觉</div>
+    <div class="note-details">
+      <div class="section-mini-title">测后感觉</div>
       <textarea class="textarea" id="f-after" placeholder="如有特别感觉可记录"></textarea>
     </div>
   </div>
 
-  <div class="form-section">
+  <div class="form-section" id="practice-reaction-section">
     <h2>💪 今日练眼体感</h2>
     <div class="field-group">
       <div class="field-label">⚡ 练眼反应（可多选）</div>
       <div class="chips chips-multi" id="f-reaction">
-        <div class="chip" data-val="打哈欠">打哈欠</div>
-        <div class="chip" data-val="流清涕">流清涕</div>
-        <div class="chip" data-val="眼酸">眼酸</div>
-        <div class="chip" data-val="眼热">眼热</div>
-        <div class="chip" data-val="流泪">流泪</div>
-        <div class="chip" data-val="无特别">无特别</div>
+        <div class="chip" data-val="打哈欠">🥱 哈欠</div>
+        <div class="chip" data-val="流清涕">💧 清涕</div>
+        <div class="chip" data-val="眼酸">😣 眼酸</div>
+        <div class="chip" data-val="眼热">🔥 眼热</div>
+        <div class="chip" data-val="流泪">😭 流泪</div>
+        <div class="chip" data-val="无特别">🙂 无</div>
       </div>
     </div>
-    <div class="field-group">
-      <div class="field-label">📝 其他备注</div>
+    <div class="practice-details" id="practice-detail-panel">
+      <div class="section-mini-title">补充观察</div>
+      <div class="practice-details-body">
+        <div class="tracking-hint" style="margin-bottom:10px">默认不用填，酸、热、流泪或不适明显时再展开。</div>
+        <div class="field-group">
+          <div class="field-label">🫧 眼酸/酸胀程度</div>
+          <div class="chips" id="f-soreness-level">
+            <div class="chip" data-val="无">无</div>
+            <div class="chip" data-val="轻微">轻微</div>
+            <div class="chip" data-val="明显">明显</div>
+            <div class="chip" data-val="偏强">偏强</div>
+            <div class="chip" data-val="过强">过强</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">⏳ 清晰感持续多久</div>
+          <div class="chips" id="f-clarity-duration">
+            <div class="chip" data-val="无明显">无明显</div>
+            <div class="chip" data-val="几秒">几秒</div>
+            <div class="chip" data-val="1-5分钟">1-5分钟</div>
+            <div class="chip" data-val="5-30分钟">5-30分钟</div>
+            <div class="chip" data-val="半小时以上">半小时以上</div>
+            <div class="chip" data-val="当天持续">当天持续</div>
+            <div class="chip" data-val="次日仍有">次日仍有</div>
+          </div>
+          <div class="tracking-hint">清晰感能维持多久，比单次“觉得清楚”更能看出阶段变化。</div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">⚠️ 减量/停止信号（可多选）</div>
+          <div class="chips chips-multi" id="f-warning">
+            <div class="chip" data-val="无">无</div>
+            <div class="chip" data-val="痛到流泪">痛到流泪</div>
+            <div class="chip" data-val="睁眼困难">睁眼困难</div>
+            <div class="chip" data-val="头晕恶心">头晕恶心</div>
+            <div class="chip" data-val="强光刺眼">强光刺眼</div>
+            <div class="chip" data-val="练后更模糊">练后更模糊</div>
+          </div>
+          <div class="tracking-hint">酸胀可以观察；痛、流泪、睁不开、头晕恶心，就别硬撑。</div>
+        </div>
+        <div class="nested-details" id="other-care-panel">
+          <div class="section-mini-title">其他护眼</div>
+          <div class="nested-details-body">
+            <div class="field-group">
+              <div class="field-label">🌿 其他护眼干预（可多选）</div>
+              <div class="chips chips-multi" id="f-other-care">
+                <div class="chip" data-val="无">无</div>
+                <div class="chip" data-val="远眺">远眺</div>
+                <div class="chip" data-val="日光浴/自然光">日光浴/自然光</div>
+                <div class="chip" data-val="眼周按摩">眼周按摩</div>
+                <div class="chip" data-val="热敷">热敷</div>
+                <div class="chip" data-val="叶黄素/补剂">叶黄素/补剂</div>
+                <div class="chip" data-val="减少用眼">减少用眼</div>
+                <div class="chip" data-val="其他">其他</div>
+              </div>
+              <div class="tracking-hint">长期改善常混合多种方法，记一下，免得以后误归因。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note-details" id="notes-panel">
+      <div class="section-mini-title">备注</div>
       <textarea class="textarea" id="f-notes" placeholder="任何想记的"></textarea>
     </div>
   </div>
 
+  <div class="record-preview" id="record-preview">选择记录类型后，这里会显示今日小结</div>
   <button class="submit-btn" id="submit-btn">💾 保存记录</button>
 </div>
 
@@ -446,12 +620,15 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
 <!-- ════════ 趋势页 ════════ -->
 <div class="page" id="page-chart">
   <div class="user-filter" id="chart-user-filter"></div>
+  <div class="chart-container" id="trend-judgment-card"></div>
+  <div class="chart-container" id="practice-relation-card"></div>
   <div class="chart-container">
-    <h2>📈 视力变化趋势</h2>
+    <h2>视力变化曲线</h2>
     <canvas id="trendChart"></canvas>
+    <div id="practice-heatmap"></div>
   </div>
   <div class="chart-container">
-    <h2>📊 统计摘要</h2>
+    <h2>关键数据</h2>
     <div id="stats"></div>
   </div>
 </div>
@@ -487,8 +664,8 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
       </select>
     </div>
   </div>
-  <div class="settings-section">
-    <h2>💾 数据管理</h2>
+  <details class="settings-section">
+    <summary class="settings-summary">💾 数据安全</summary>
     <div>
       <button class="data-btn" id="btn-export">📤 导出全部数据</button>
       <button class="data-btn" id="btn-import">📥 导入数据</button>
@@ -497,11 +674,11 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
     </div>
     <input type="file" id="import-file" accept=".json" style="display:none">
     <div style="margin-top:10px;font-size:0.72rem;color:var(--dim)">
-      数据自动同步到云端，所有用户共享。最后一次同步：<span id="last-sync-time">—</span>
+      自动同步云端。最后一次同步：<span id="last-sync-time">—</span>
     </div>
-  </div>
-  <div class="settings-section">
-    <h2>ℹ️ 五分 ↔ 小数 对照</h2>
+  </details>
+  <details class="settings-section">
+    <summary class="settings-summary">ℹ️ 五分 ↔ 小数 对照</summary>
     <div class="acuity-table">
       <div class="cell">4.0<br>0.1</div>
       <div class="cell">4.1<br>0.12</div>
@@ -518,7 +695,7 @@ input[type="date"].input,input[type="time"].input{-webkit-appearance:none;appear
       <div class="cell">5.2<br>1.5</div>
       <div class="cell">5.3<br>2.0</div>
     </div>
-  </div>
+  </details>
 </div>
 
 <!-- 用户选择弹窗 -->
@@ -786,6 +963,133 @@ function createRecordId() {
   return `local_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[ch]));
+}
+
+function normalizePracticeMinutes(duration, customMinutes) {
+  if (duration === '未练') return '';
+  if (duration !== '自定义') return duration || '';
+  const n = Number(customMinutes);
+  if (!Number.isFinite(n)) return '';
+  const clamped = Math.min(120, Math.max(0, Math.round(n)));
+  return `${clamped}分钟`;
+}
+
+function getPracticeTrackingPayload(record) {
+  const payload = {};
+  if (record.practiceDuration) payload.practiceDuration = record.practiceDuration;
+  if (record.sorenessLevel) payload.sorenessLevel = record.sorenessLevel;
+  if (record.clarityDuration) payload.clarityDuration = record.clarityDuration;
+  if (record.warningSignals && record.warningSignals.length) payload.warningSignals = record.warningSignals;
+  if (record.otherEyeCare && record.otherEyeCare.length) payload.otherEyeCare = record.otherEyeCare;
+  return payload;
+}
+
+function buildPracticeTrackingBlock(record) {
+  const payload = getPracticeTrackingPayload(record);
+  return Object.keys(payload).length ? `[练眼追踪:v1] ${JSON.stringify(payload)}` : '';
+}
+
+function stripPracticeTrackingBlock(notes) {
+  return (notes || '').split('\n').filter(line => !/^\[练眼追踪(?::v\d+)?\]\s*/.test(line.trim())).join('\n').trim();
+}
+
+function composeCloudNotes(record) {
+  const raw = stripPracticeTrackingBlock(record.notes || '');
+  const block = buildPracticeTrackingBlock(record);
+  return [raw, block].filter(Boolean).join(raw && block ? '\n' : '');
+}
+
+function parseLegacyPracticeTrackingBody(body) {
+  const result = {};
+  const duration = body.match(/练眼时长:([^；]+)/);
+  if (duration) result.practiceDuration = duration[1];
+  const soreness = body.match(/眼酸:([^；]+)/);
+  if (soreness) result.sorenessLevel = soreness[1];
+  const clarity = body.match(/清晰持续:([^；]+)/);
+  if (clarity) result.clarityDuration = clarity[1];
+  const warning = body.match(/减量信号:([^；]+)/);
+  if (warning) result.warningSignals = warning[1].split('/').filter(Boolean);
+  const care = body.match(/其他护眼:([^；]+)/);
+  if (care) result.otherEyeCare = care[1].split('/').filter(Boolean);
+  return result;
+}
+
+function parsePracticeTrackingFromNotes(notes) {
+  const line = (notes || '').split('\n').map(l => l.trim()).find(l => /^\[练眼追踪(?::v\d+)?\]\s*/.test(l));
+  if (!line) return {};
+  const body = line.replace(/^\[练眼追踪(?::v\d+)?\]\s*/, '').trim();
+  if (!body) return {};
+  if (body.startsWith('{')) {
+    try {
+      const parsed = JSON.parse(body);
+      return {
+        practiceDuration: parsed.practiceDuration || '',
+        sorenessLevel: parsed.sorenessLevel || '',
+        clarityDuration: parsed.clarityDuration || '',
+        warningSignals: Array.isArray(parsed.warningSignals) ? parsed.warningSignals.filter(Boolean) : [],
+        otherEyeCare: Array.isArray(parsed.otherEyeCare) ? parsed.otherEyeCare.filter(Boolean) : [],
+      };
+    } catch(e) {
+      return {};
+    }
+  }
+  return parseLegacyPracticeTrackingBody(body);
+}
+
+function migratePracticeTrackingRecord(record) {
+  if (!record || !record.notes) return record;
+  const parsed = parsePracticeTrackingFromNotes(record.notes);
+  return {
+    ...record,
+    ...Object.fromEntries(Object.entries(parsed).filter(([, v]) => Array.isArray(v) ? v.length : v)),
+    notes: stripPracticeTrackingBlock(record.notes),
+  };
+}
+
+function formatPracticeTrackingSummary(r) {
+  const parts = [];
+  if (r.practiceDuration) parts.push(`时长 ${escapeHtml(r.practiceDuration)}`);
+  if (r.sorenessLevel) parts.push(`眼酸 ${escapeHtml(r.sorenessLevel)}`);
+  if (r.clarityDuration) parts.push(`清晰持续 ${escapeHtml(r.clarityDuration)}`);
+  if (r.warningSignals && r.warningSignals.length) parts.push(`减量信号 ${r.warningSignals.map(escapeHtml).join(' / ')}`);
+  if (r.otherEyeCare && r.otherEyeCare.length) parts.push(`其他护眼 ${r.otherEyeCare.map(escapeHtml).join(' / ')}`);
+  return parts.join('｜');
+}
+
+function getPracticeStage(record) {
+  const days = Number(record.daysSince);
+  const practiced = record.practiced && record.practiced !== '没练';
+  if (!practiced || !Number.isFinite(days)) return '';
+  const day = Math.max(1, days + 1);
+  if (day <= 3) return `第${day}天｜启动期`;
+  if (day <= 10) return `第${day}天｜适应期`;
+  if (day <= 20) return `第${day}天｜半月观察`;
+  if (day <= 40) return `第${day}天｜一月观察`;
+  if (day >= 80 && day <= 110) return `第${day}天｜百日复查`;
+  if (day >= 180) return `第${day}天｜长期维护`;
+  return `第${day}天`;
+}
+
+function enforceExclusiveOption(containerId, noneValue) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    const chips = Array.from(container.querySelectorAll('.chip'));
+    if (chip.dataset.val === noneValue && chip.classList.contains('selected')) {
+      chips.forEach(c => { if (c !== chip) c.classList.remove('selected'); });
+    } else if (chip.dataset.val !== noneValue && chip.classList.contains('selected')) {
+      const none = chips.find(c => c.dataset.val === noneValue);
+      if (none) none.classList.remove('selected');
+    }
+  });
+}
+
 // ===== 云端同步 =====
 async function syncFromCloud(isInit) {
   if (isSyncing) return;
@@ -846,7 +1150,8 @@ async function syncFromCloud(isInit) {
       clarity: r.clarity || '',
       after: r.after_feeling || '',
       reaction: r.body_reactions ? r.body_reactions.split(',').filter(Boolean) : [],
-      notes: r.notes || '',
+      notes: stripPracticeTrackingBlock(r.notes || ''),
+      ...parsePracticeTrackingFromNotes(r.notes || ''),
       cloudId: r.id,
     };
   });
@@ -949,7 +1254,7 @@ async function pushRecordToCloud(record) {
     clarity: record.clarity || null,
     after_feeling: record.after || null,
     body_reactions: (record.reaction || []).join(','),
-    notes: record.notes || null,
+    notes: composeCloudNotes(record) || null,
   };
 
   if (record.cloudId) {
@@ -1060,7 +1365,7 @@ async function init(){
 function loadData(){
   try{
     const r = localStorage.getItem(STORAGE_KEY);
-    records = r ? JSON.parse(r) : [];
+    records = r ? JSON.parse(r).map(migratePracticeTrackingRecord) : [];
     const u = localStorage.getItem(USERS_KEY);
     users = u ? JSON.parse(u) : [];
   }catch(e){ records = []; users = []; }
@@ -1194,6 +1499,8 @@ function buildAcuityGrid(containerId, eye){
     cell.addEventListener('click', () => {
       container.querySelectorAll('.acuity-cell').forEach(c => c.classList.remove('selected'));
       cell.classList.add('selected');
+      updateAcuityCardValues();
+      updateRecordPreview();
     });
     container.appendChild(cell);
   });
@@ -1202,6 +1509,18 @@ function buildAcuityGrid(containerId, eye){
 function getSelectedAcuity(containerId){
   const sel = document.querySelector(`#${containerId} .acuity-cell.selected`);
   return sel ? parseFloat(sel.dataset.score) : null;
+}
+
+function updateAcuityCardValues(){
+  const map = {
+    'acuity-value-both': getSelectedAcuity('acuity-grid'),
+    'acuity-value-left': getSelectedAcuity('acuity-grid-left'),
+    'acuity-value-right': getSelectedAcuity('acuity-grid-right'),
+  };
+  Object.entries(map).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val || '—';
+  });
 }
 
 // ===== Chip 选择器 =====
@@ -1229,9 +1548,10 @@ function getMultiChipValues(containerId){
 
 function updateSeparateAcuitySections(){
   const isSeparate = getChipValue('f-separate') === 'yes';
-  document.getElementById('acuity-section').style.display = isSeparate ? 'none' : 'block';
-  document.getElementById('acuity-left-section').style.display = isSeparate ? 'block' : 'none';
-  document.getElementById('acuity-right-section').style.display = isSeparate ? 'block' : 'none';
+  const hasTest = includesAcuityTest();
+  document.getElementById('acuity-section').style.display = hasTest ? 'block' : 'none';
+  document.getElementById('acuity-left-section').style.display = hasTest && isSeparate ? 'block' : 'none';
+  document.getElementById('acuity-right-section').style.display = hasTest && isSeparate ? 'block' : 'none';
 }
 
 function updatePracticedTimeVisibility(){
@@ -1250,6 +1570,66 @@ function getPracticedValue(){
   if (practiced !== '其他时间') return practiced;
   const t = document.getElementById('f-practiced-time').value;
   return t ? `其他时间 ${t}` : '其他时间';
+}
+
+function getRecordType(){
+  return getChipValue('f-record-type') || 'test';
+}
+function includesAcuityTest(){
+  return getRecordType() === 'test';
+}
+function includesPracticeLog(){
+  return getRecordType() === 'practice';
+}
+function updateConditionSummary(){
+  const el = document.getElementById('condition-summary-text');
+  if (!el) return;
+  const distance = document.getElementById('f-distance').value || '1.3';
+  const device = document.getElementById('f-device').value || '设备';
+  const glasses = document.getElementById('f-glasses').value === '是' ? '戴镜' : '不戴';
+  const separate = getChipValue('f-separate') === 'yes' ? '左/右' : '双眼';
+  el.textContent = `${distance}m · ${device} · ${glasses} · ${separate}`;
+  const env = document.getElementById('environment-summary-text');
+  if (env) env.textContent = `${getChipValue('f-weather') || '天气'} · ${getChipValue('f-light') || '光线'}`;
+}
+function updateRecordTypeVisibility(){
+  const hasTest = includesAcuityTest();
+  const hasPractice = includesPracticeLog();
+  document.getElementById('test-settings-fields').classList.toggle('section-hidden', !hasTest);
+  document.getElementById('acuity-result-section').classList.toggle('section-hidden', !hasTest);
+  document.getElementById('status-section').classList.toggle('section-hidden', !hasTest);
+  document.getElementById('practice-fields').classList.toggle('section-hidden', !hasPractice);
+  document.getElementById('practice-reaction-section').classList.toggle('section-hidden', !hasPractice);
+  updateSeparateAcuitySections();
+  updatePracticeDurationVisibility();
+  updateConditionSummary();
+}
+
+function updatePracticeDurationVisibility(){
+  const practiced = getChipValue('f-practiced');
+  let duration = getChipValue('f-practice-duration');
+  const custom = document.getElementById('f-practice-minutes');
+  const durationChips = Array.from(document.querySelectorAll('#f-practice-duration .chip'));
+  if (practiced === '没练') {
+    durationChips.forEach(c => c.classList.toggle('selected', c.dataset.val === '未练'));
+    custom.hidden = true;
+    custom.value = '';
+    return;
+  }
+  if (practiced && (!duration || duration === '未练')) {
+    durationChips.forEach(c => c.classList.toggle('selected', c.dataset.val === '10-20分钟'));
+    duration = '10-20分钟';
+  }
+  custom.hidden = duration !== '自定义';
+  if (duration !== '自定义') custom.value = '';
+}
+
+function maybeOpenPracticeDetails(){
+  const reactions = getMultiChipValues('f-reaction');
+  if (reactions.some(v => v !== '无特别')) {
+    const panel = document.getElementById('practice-detail-panel');
+    if (panel) panel.open = true;
+  }
 }
 
 function formatLocalDate(d = new Date()){
@@ -1286,8 +1666,8 @@ function setDefaultForm(){
     }
   }
 
-  updateSeparateAcuitySections();
   updatePracticedTimeVisibility();
+  updateRecordTypeVisibility();
 }
 
 // ===== 事件绑定 =====
@@ -1304,20 +1684,64 @@ function bindEvents(){
     });
   });
 
-  ['f-weather','f-light','f-practiced','f-fatigue','f-clarity','f-separate'].forEach(id => setupChips(id));
+  ['f-record-type','f-weather','f-light','f-practiced','f-fatigue','f-clarity','f-separate','f-practice-duration','f-soreness-level','f-clarity-duration'].forEach(id => setupChips(id));
   setupChips('f-reaction', true);
+  setupChips('f-warning', true);
+  setupChips('f-other-care', true);
+  enforceExclusiveOption('f-reaction', '无特别');
+  enforceExclusiveOption('f-warning', '无');
+  enforceExclusiveOption('f-other-care', '无');
+
+  document.getElementById('f-record-type').addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if(!chip) return;
+    updateRecordTypeVisibility();
+    updateRecordPreview();
+  });
 
   document.getElementById('f-separate').addEventListener('click', e => {
     const chip = e.target.closest('.chip');
     if(!chip) return;
     updateSeparateAcuitySections();
+    updateConditionSummary();
+    updateRecordPreview();
   });
 
   document.getElementById('f-practiced').addEventListener('click', e => {
     const chip = e.target.closest('.chip');
     if(!chip) return;
     updatePracticedTimeVisibility();
+    updatePracticeDurationVisibility();
+    updateRecordPreview();
   });
+
+  document.getElementById('f-practice-duration').addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if(!chip) return;
+    updatePracticeDurationVisibility();
+    updateRecordPreview();
+  });
+
+  document.getElementById('f-reaction').addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if(!chip) return;
+    maybeOpenPracticeDetails();
+    updateRecordPreview();
+  });
+
+  ['acuity-grid','acuity-grid-left','acuity-grid-right','f-weather','f-light','f-fatigue','f-clarity','f-reaction'].forEach(id => {
+    const node = document.getElementById(id);
+    if (node) node.addEventListener('click', () => setTimeout(() => { updateConditionSummary(); updateRecordPreview(); }, 0));
+  });
+  ['f-distance','f-device','f-glasses','f-practice-minutes','f-practiced-time'].forEach(id => {
+    const node = document.getElementById(id);
+    if (node) {
+      node.addEventListener('input', () => { updateConditionSummary(); updateRecordPreview(); });
+      node.addEventListener('change', () => { updateConditionSummary(); updateRecordPreview(); });
+    }
+  });
+  updateConditionSummary();
+  updateRecordPreview();
 
   document.getElementById('submit-btn').addEventListener('click', submitRecord);
   document.getElementById('change-user-btn').addEventListener('click', showUserModal);
@@ -1361,6 +1785,9 @@ async function submitRecord(){
   const user = getCurrentUser();
   const date = document.getElementById('f-date').value;
   const time = document.getElementById('f-time').value;
+  const recordType = getRecordType();
+  const hasTest = includesAcuityTest();
+  const hasPractice = includesPracticeLog();
   const distance = parseFloat(document.getElementById('f-distance').value) || 1.3;
   const device = document.getElementById('f-device').value;
   const glasses = document.getElementById('f-glasses').value;
@@ -1374,25 +1801,41 @@ async function submitRecord(){
   const acuityRight = separate === 'yes' ? getSelectedAcuity('acuity-grid-right') : null;
   const practiced = getChipValue('f-practiced');
   const practicedTime = document.getElementById('f-practiced-time').value;
+  const durationChoice = getChipValue('f-practice-duration');
+  const practiceDuration = normalizePracticeMinutes(durationChoice, document.getElementById('f-practice-minutes').value);
 
-  if(separate === 'yes'){
-    if(!acuityLeft || !acuityRight){ showToast('请选择左眼和右眼视力结果', 'error'); return; }
-  }else if(!acuityBoth){
-    showToast('请选择视力结果', 'error'); return;
+  if(hasTest){
+    if(separate === 'yes'){
+      if(!acuityBoth || !acuityLeft || !acuityRight){ showToast('请选择双眼、左眼和右眼视力结果', 'error'); return; }
+    }else if(!acuityBoth){
+      showToast('请选择视力结果', 'error'); return;
+    }
   }
 
-  if(practiced === '其他时间' && !practicedTime){ showToast('请选择具体练眼时间', 'error'); return; }
+  if(hasPractice){
+    if(!practiced || practiced === '没练'){ showToast('请选择今天练眼时间', 'error'); return; }
+    if(practiced === '其他时间' && !practicedTime){ showToast('请选择具体练眼时间', 'error'); return; }
+    if(durationChoice === '自定义' && !practiceDuration){ showToast('请填写自定义练眼时长', 'error'); return; }
+  }
 
   const record = {
     id: createRecordId(), userId: currentUserId, userName: user.name, userColor: user.color,
-    date, time, distance, device, glasses, separate: separate === 'yes',
-    acuityBoth, acuityLeft, acuityRight,
+    recordType,
+    date, time, distance, device, glasses, separate: hasTest && separate === 'yes',
+    acuityBoth: hasTest ? acuityBoth : null,
+    acuityLeft: hasTest ? acuityLeft : null,
+    acuityRight: hasTest ? acuityRight : null,
     weather: getChipValue('f-weather'), light: getChipValue('f-light'),
     practiced: getPracticedValue(),
     daysSince: document.getElementById('f-days-since').value || '',
     fatigue: getChipValue('f-fatigue'), clarity: getChipValue('f-clarity'),
     after: document.getElementById('f-after').value,
     reaction: getMultiChipValues('f-reaction'),
+    practiceDuration,
+    sorenessLevel: getChipValue('f-soreness-level'),
+    clarityDuration: getChipValue('f-clarity-duration'),
+    warningSignals: getMultiChipValues('f-warning'),
+    otherEyeCare: getMultiChipValues('f-other-care'),
     notes: document.getElementById('f-notes').value,
   };
 
@@ -1424,10 +1867,21 @@ async function submitRecord(){
     document.getElementById('f-after').value = '';
     document.getElementById('f-notes').value = '';
     document.getElementById('f-practiced-time').value = '';
+    document.getElementById('f-practice-minutes').value = '';
+    document.getElementById('practice-detail-panel').open = false;
+    document.getElementById('other-care-panel').open = false;
+    const notesPanel = document.getElementById('notes-panel'); if (notesPanel) notesPanel.open = false;
     document.querySelectorAll('.acuity-cell').forEach(c => c.classList.remove('selected'));
+    updateAcuityCardValues();
     document.querySelectorAll('#f-reaction .chip').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#f-warning .chip').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#f-other-care .chip').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#f-clarity-duration .chip').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#f-soreness-level .chip').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#f-practice-duration .chip').forEach(c => c.classList.remove('selected'));
     document.querySelectorAll('#f-practiced .chip').forEach(c => c.classList.remove('selected'));
     setDefaultForm();
+    updateRecordPreview();
   }, 500);
 
   renderHistory(); renderChart(); renderUserList();
@@ -1457,6 +1911,129 @@ function renderUserFilter(containerId, filterVar){
 }
 
 // ===== 历史渲染 =====
+function formatShortDate(dateStr) {
+  if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || '';
+  const d = new Date(dateStr + 'T00:00:00');
+  const todayKey = formatLocalDate(new Date());
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yKey = formatLocalDate(yesterday);
+  if (dateStr === todayKey) return '今天';
+  if (dateStr === yKey) return '昨天';
+  const week = ['周日','周一','周二','周三','周四','周五','周六'][d.getDay()];
+  return `${dateStr.slice(5)} ${week}`;
+}
+function getPracticeLevel(duration) {
+  const text = duration || '';
+  if (!text) return 0;
+  if (/30/.test(text)) return 3;
+  if (/20/.test(text) || /10-20/.test(text)) return 2;
+  if (/5|10/.test(text)) return 1;
+  return 1;
+}
+function getPracticeBars(duration) {
+  if (!duration) return '';
+  return String(duration).replace('分钟','m').replace('以上','+').replace('内','');
+}
+
+function hasRiskSignal(r) {
+  return (r.warningSignals || []).some(v => v && v !== '无') || (r.sorenessLevel === '过强');
+}
+function getStatusChip(r) {
+  if (hasRiskSignal(r)) return '<span class="history-chip risk"><span class="status-dot"></span>减负</span>';
+  if (r.sorenessLevel || (r.reaction || []).includes('眼酸') || r.fatigue === '酸' || r.fatigue === '累') return '<span class="history-chip warn"><span class="status-dot"></span>观察</span>';
+  if (r.clarity === '清晰' || r.clarity === '很清晰' || r.clarityDuration) return '<span class="history-chip good"><span class="status-dot"></span>清晰</span>';
+  return '';
+}
+function getAcuityChange(current, previous) {
+  if (!current || !previous) return '';
+  const diff = Number(current) - Number(previous);
+  if (Math.abs(diff) < 0.01) return '→';
+  return diff > 0 ? `↑${diff.toFixed(1)}` : `↓${Math.abs(diff).toFixed(1)}`;
+}
+function buildRecordPreview() {
+  const type = getRecordType();
+  const bits = [];
+  if (type === 'test') {
+    const sep = getChipValue('f-separate') === 'yes';
+    const both = getSelectedAcuity('acuity-grid');
+    const left = getSelectedAcuity('acuity-grid-left');
+    const right = getSelectedAcuity('acuity-grid-right');
+    bits.push('<span class="preview-pill">👁️ 视力检测</span>');
+    if (sep && (both || left || right)) bits.push(`<span class="preview-pill">双 ${both || '—'} · L ${left || '—'} · R ${right || '—'}</span>`);
+    else if (both) bits.push(`<span class="preview-pill">${both}</span>`);
+    bits.push(`<span class="preview-pill">${escapeHtml(document.getElementById('f-device').value)} · ${escapeHtml(document.getElementById('f-distance').value || '1.3')}m</span>`);
+  } else {
+    const practiced = getPracticedValue();
+    const duration = normalizePracticeMinutes(getChipValue('f-practice-duration'), document.getElementById('f-practice-minutes').value);
+    bits.push('<span class="preview-pill">🧘 练眼记录</span>');
+    if (practiced) bits.push(`<span class="preview-pill">${escapeHtml(practiced.replace('练了',''))}</span>`);
+    if (duration) bits.push(`<span class="preview-pill">${escapeHtml(duration)} ${getPracticeBars(duration)}</span>`);
+  }
+  return bits.join('') || '选择记录类型后，这里会显示今日小结';
+}
+function updateRecordPreview() {
+  const el = document.getElementById('record-preview');
+  if (el) el.innerHTML = buildRecordPreview();
+}
+
+function getHistorySummaryForDay(dayRecords, usersById) {
+  const acuityRecords = dayRecords.filter(isAcuityRecord);
+  const practiceRecords = dayRecords.filter(isPracticeRecord);
+  const latestAcuity = acuityRecords[0];
+  const latestPractice = practiceRecords[0];
+  const prevAcuity = acuityRecords[1];
+  const chips = [];
+  if (latestAcuity) {
+    const score = latestAcuity.acuityBoth || latestAcuity.acuityLeft || '—';
+    const change = getAcuityChange(score, prevAcuity && (prevAcuity.acuityBoth || prevAcuity.acuityLeft));
+    const scoreText = Number.isInteger(Number(score)) ? Number(score).toFixed(1) : String(score);
+    chips.push(`<span class="history-chip main">视力 ${escapeHtml(scoreText)}${change ? ' ' + escapeHtml(change) : ''}</span>`);
+  }
+  if (latestPractice) {
+    const duration = getPracticeBars(latestPractice.practiceDuration);
+    chips.push(`<span class="history-chip practice">训练${duration ? ' ' + escapeHtml(duration) : ''}</span>`);
+  }
+  const status = getStatusChip(latestPractice || latestAcuity || dayRecords[0]);
+  if (status) chips.push(status);
+  if (!chips.length) chips.push(`<span class="history-chip">${dayRecords.length}条</span>`);
+  return chips.join('');
+}
+
+function renderHistoryRecord(r, usersById) {
+  const hasAcuity = isAcuityRecord(r);
+  const acuity = r.acuityBoth;
+  const acuityText = hasAcuity ? (r.separate ? `双 ${r.acuityBoth || '—'} / 左 ${r.acuityLeft || '—'} / 右 ${r.acuityRight || '—'}` : `${acuity || r.acuityLeft || '—'}`) : '练眼记录';
+  const acuityDecimal = acuity && !r.separate ? (ACUITY_DATA.find(a => a.score === acuity)?.decimal || '') : '';
+  const displayName = escapeHtml(resolveDisplayUserName(r, usersById) || '未知');
+  const safeColor = /^#[0-9a-fA-F]{3,8}$/.test(r.userColor || '') ? r.userColor : 'var(--accent)';
+  const practiceSummary = formatPracticeTrackingSummary(r);
+  const stage = getPracticeStage(r);
+  const afterNotes = [r.after ? '测后：' + escapeHtml(r.after) : '', r.notes ? '备注：' + escapeHtml(r.notes) : ''].filter(Boolean).join(' | ');
+  return `
+    <div class="history-item">
+      <div class="date-row">
+        <span class="date">${escapeHtml(r.time || '')}</span>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="user-tag" style="background:${safeColor}22;color:${safeColor}">${displayName}</span>
+          <span class="acuity-badge">${escapeHtml(acuityText)}${acuityDecimal ? ` <span style="font-size:0.72rem;color:var(--dim)">(${escapeHtml(acuityDecimal)})</span>` : ''}</span>
+        </div>
+      </div>
+      <div class="meta">
+        ${hasAcuity ? `<span class="meta-item">📏 ${escapeHtml(r.distance)}m</span><span class="meta-item">📱 ${escapeHtml(r.device || '')}</span><span class="meta-item">👓 ${escapeHtml(r.glasses || '')}</span>` : ''}
+        <span class="meta-item">☀️ ${escapeHtml(r.weather || '—')}</span>
+        <span class="meta-item">💡 ${escapeHtml(r.light || '—')}</span>
+        ${isPracticeRecord(r) ? `<span class="meta-item">🧘 ${escapeHtml(r.practiced || '—')}</span>` : ''}
+        ${hasAcuity ? `<span class="meta-item">👀 疲劳: ${escapeHtml(r.fatigue || '—')}</span><span class="meta-item">✨ 清晰: ${escapeHtml(r.clarity || '—')}</span>` : ''}
+      </div>
+      ${stage ? `<div class="notes">🪴 ${escapeHtml(stage)}</div>` : ''}
+      ${r.reaction && r.reaction.length ? `<div class="notes">⚡ ${r.reaction.map(escapeHtml).join(' / ')}</div>` : ''}
+      ${practiceSummary ? `<div class="notes">📌 练眼追踪：${practiceSummary}</div>` : ''}
+      ${afterNotes ? `<div class="notes">${afterNotes}</div>` : ''}
+      <button class="delete-btn" onclick='deleteRecord(${JSON.stringify(r.id)})'>删除</button>
+    </div>`;
+}
+
 function renderHistory(){
   const container = document.getElementById('history-list');
   const usersById = getUsersById();
@@ -1473,34 +2050,25 @@ function renderHistory(){
     return (b.time || '').localeCompare(a.time || '');
   });
 
-  container.innerHTML = sorted.map(r => {
-    const acuity = r.separate ? null : r.acuityBoth;
-    const acuityText = r.separate ? `左 ${r.acuityLeft || '—'} / 右 ${r.acuityRight || '—'}` : `${acuity || '—'}`;
-    const acuityDecimal = acuity ? (ACUITY_DATA.find(a => a.score === acuity)?.decimal || '') : '';
-    return `
-    <div class="history-item">
-      <div class="date-row">
-        <span class="date">${r.date} ${r.time || ''}</span>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span class="user-tag" style="background:${r.userColor}22;color:${r.userColor}">${resolveDisplayUserName(r, usersById) || '未知'}</span>
-          <span class="acuity-badge">${acuityText}${acuityDecimal ? ` <span style="font-size:0.72rem;color:var(--dim)">(${acuityDecimal})</span>` : ''}</span>
-        </div>
+  const byDate = new Map();
+  sorted.forEach(r => {
+    const key = r.date || '未注明日期';
+    if (!byDate.has(key)) byDate.set(key, []);
+    byDate.get(key).push(r);
+  });
+
+  container.innerHTML = Array.from(byDate.entries()).map(([date, dayRecords], index) => `
+    <details class="history-day" ${index === 0 ? 'open' : ''}>
+      <summary>
+        <span class="history-day-date">${escapeHtml(formatShortDate(date))}</span>
+        <span class="history-day-summary">${getHistorySummaryForDay(dayRecords, usersById)}</span>
+        <span class="history-day-count">${dayRecords.length}次</span>
+      </summary>
+      <div class="history-day-body">
+        ${dayRecords.map(r => renderHistoryRecord(r, usersById)).join('')}
       </div>
-      <div class="meta">
-        <span class="meta-item">📏 ${r.distance}m</span>
-        <span class="meta-item">📱 ${r.device || ''}</span>
-        <span class="meta-item">👓 ${r.glasses || ''}</span>
-        <span class="meta-item">☀️ ${r.weather || '—'}</span>
-        <span class="meta-item">💡 ${r.light || '—'}</span>
-        <span class="meta-item">🧘 ${r.practiced || '—'}</span>
-        <span class="meta-item">👀 疲劳: ${r.fatigue || '—'}</span>
-        <span class="meta-item">✨ 清晰: ${r.clarity || '—'}</span>
-      </div>
-      ${r.reaction && r.reaction.length ? `<div class="notes">⚡ ${r.reaction.join(' / ')}</div>` : ''}
-      ${(r.after || r.notes) ? `<div class="notes">${r.after ? '测后：' + r.after : ''}${r.after && r.notes ? ' | ' : ''}${r.notes ? '备注：' + r.notes : ''}</div>` : ''}
-      <button class="delete-btn" onclick='deleteRecord(${JSON.stringify(r.id)})'>删除</button>
-    </div>`;
-  }).join('');
+    </details>
+  `).join('');
 }
 
 async function deleteRecord(id){
@@ -1523,6 +2091,71 @@ async function deleteRecord(id){
   saveData(); renderHistory(); renderChart(); renderUserList();
   setSyncStatus('synced', '已同步');
   showToast('已删除');
+}
+
+function isPracticeRecord(r) {
+  return !!(r.practiced && r.practiced !== '没练') || !!r.practiceDuration || (r.reaction && r.reaction.length) || !!formatPracticeTrackingSummary(r);
+}
+function isAcuityRecord(r) {
+  return !!(r.acuityBoth || r.acuityLeft || r.acuityRight);
+}
+function getPracticeStats(sorted) {
+  const practiceRecords = sorted.filter(isPracticeRecord);
+  const acuityRecords = sorted.filter(isAcuityRecord);
+  const practiceDays = new Set(practiceRecords.map(r => r.date).filter(Boolean)).size;
+  const acuityDays = new Set(acuityRecords.map(r => r.date).filter(Boolean)).size;
+  const totalDays = new Set(sorted.map(r => r.date).filter(Boolean)).size;
+  const rate = totalDays ? Math.round((practiceDays / totalDays) * 100) : 0;
+  const latestPractice = practiceRecords.slice().sort((a,b) => {
+    if(b.date !== a.date) return b.date.localeCompare(a.date);
+    return (b.time || '').localeCompare(a.time || '');
+  })[0];
+  return { practiceRecords, acuityRecords, practiceDays, acuityDays, totalDays, rate, latestPractice };
+}
+
+function renderPracticeHeatmap(sorted, allXKeys) {
+  const container = document.getElementById('practice-heatmap');
+  if (!container) return;
+  const p = getPracticeStats(sorted);
+  const latest = p.latestPractice ? `${escapeHtml(p.latestPractice.date)} ${escapeHtml(p.latestPractice.practiceDuration || p.latestPractice.practiced || '')}` : '—';
+  container.innerHTML = `<div class="heatmap-caption">练眼：${p.practiceDays} 天 / ${p.practiceRecords.length} 次 · 最近 ${latest}</div>`;
+}
+
+function renderTrendJudgment(sorted) {
+  const el = document.getElementById('trend-judgment-card');
+  if (!el) return;
+  const acuity = sorted.filter(isAcuityRecord).map(r => r.acuityBoth || r.acuityLeft).filter(Boolean);
+  const p = getPracticeStats(sorted);
+  const risk = sorted.some(hasRiskSignal);
+  let title = '数据还不够', tone = 'warn', reason = '至少积累 3 次固定场景检测后，再判断趋势。';
+  if (acuity.length >= 2) {
+    const diff = Number((acuity[acuity.length - 1] - acuity[0]).toFixed(1));
+    if (risk) { title = '近期需要观察'; tone = 'risk'; }
+    else if (diff >= 0.2) { title = '视力明显改善'; tone = 'good'; }
+    else if (diff >= 0.1) { title = '视力轻微改善'; tone = 'good'; }
+    else if (diff <= -0.1) { title = '视力略有下降'; tone = 'risk'; }
+    else { title = '视力基本稳定'; tone = 'warn'; }
+    const diffText = diff > 0 ? `+${diff}` : String(diff);
+    const stableText = acuity.length < 3 ? '数据还少，只能初步看。' : '继续保持同一测量条件。';
+    reason = `从 ${acuity[0]} 到 ${acuity[acuity.length - 1]}，变化 ${diffText}。${stableText}`;
+  }
+  el.innerHTML = `<div class="trend-judgment-title">趋势结论</div><div class="trend-judgment-main ${tone}"><span class="status-dot"></span>${title}</div><div class="trend-judgment-reason">${escapeHtml(reason)}</div>`;
+}
+
+function renderPracticeRelation(sorted) {
+  const el = document.getElementById('practice-relation-card');
+  if (!el) return;
+  const acuity = sorted.filter(isAcuityRecord).map(r => r.acuityBoth || r.acuityLeft).filter(Boolean);
+  const p = getPracticeStats(sorted);
+  let title = '练眼与变化', text = '记录还少，暂时不能判断练眼和视力变化的同期关系。';
+  if (acuity.length >= 2) {
+    const diff = Number((acuity[acuity.length - 1] - acuity[0]).toFixed(1));
+    if (p.practiceRecords.length === 0) text = `这段时间没有练眼记录，视力变化 ${diff > 0 ? '+' + diff : diff}，暂时看不出练眼关系。`;
+    else if (diff > 0) text = `最近练眼 ${p.practiceDays} 天 / ${p.practiceRecords.length} 次，视力同期 ${diff > 0 ? '+' + diff : diff}。这是正向同期信号，但不能证明因果。`;
+    else if (diff < 0) text = `最近练眼 ${p.practiceDays} 天 / ${p.practiceRecords.length} 次，但视力同期 ${diff}。先观察疲劳、光线和测量条件。`;
+    else text = `最近练眼 ${p.practiceDays} 天 / ${p.practiceRecords.length} 次，视力基本持平。可以继续看清晰感和疲劳变化。`;
+  }
+  el.innerHTML = `<div class="trend-judgment-title">${title}</div><div class="trend-judgment-reason">${escapeHtml(text)}</div>`;
 }
 
 // ===== 趋势图 =====
@@ -1552,8 +2185,13 @@ function renderChart(){
 
   ctx.clearRect(0, 0, W, H);
 
+  renderTrendJudgment(sorted);
+  renderPracticeRelation(sorted);
+
   if(sorted.length === 0){
     document.getElementById('stats').innerHTML = '<div class="empty">暂无数据</div>';
+    renderTrendJudgment(sorted);
+    renderPracticeRelation(sorted);
     return;
   }
 
@@ -1584,7 +2222,7 @@ function renderChart(){
     users.forEach(u => {
       const userRecords = sorted.filter(r => r.userId === u.id);
       if(userRecords.length > 0){
-        lines.push({ name: u.name, color: u.color, data: userRecords.map(r => ({ x: getRecordXKey(r), val: r.acuityBoth || r.acuityLeft })) });
+        lines.push({ name: u.name, color: u.color, data: userRecords.map(r => ({ x: getRecordXKey(r), val: r.acuityBoth || r.acuityLeft })).filter(d => d.val) });
       }
     });
   }else{
@@ -1601,6 +2239,19 @@ function renderChart(){
   }
 
   const allXKeys = [...new Set(lines.flatMap(l => l.data.map(d => d.x)))].sort();
+  if(allXKeys.length === 0){
+    const p = getPracticeStats(sorted);
+    document.getElementById('stats').innerHTML = `
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">练眼天数</div><div class="stat-value">${p.practiceDays}</div></div>
+        <div class="stat-card"><div class="stat-label">练眼记录</div><div class="stat-value">${p.practiceRecords.length}</div></div>
+      </div>
+      <div style="margin-top:10px;font-size:0.76rem;color:var(--dim);text-align:center">
+        当前只有练眼记录，还没有视力检测点；回到固定场景测一次后，就能和练眼频率对照。
+      </div>`;
+    return;
+  }
+  renderPracticeHeatmap(sorted, allXKeys);
   const step = plotW / Math.max(allXKeys.length - 1, 1);
 
   ctx.fillStyle = colors.dim;
@@ -1658,18 +2309,18 @@ function renderChart(){
     const changeColor = change > 0 ? 'var(--green)' : change < 0 ? 'var(--red)' : 'var(--dim)';
     const filteredUser = users.find(u => u.id === chartFilter);
     const userLabel = chartFilter === 'all' ? '全部用户' : (filteredUser?.name || '');
-    const dayCount = new Set(sorted.map(r => r.date)).size;
+    const dayCount = new Set(sorted.map(r => r.date).filter(Boolean)).size;
+    const p = getPracticeStats(sorted);
+    const latestPracticeText = p.latestPractice ? formatShortDate(p.latestPractice.date) : '—';
 
     document.getElementById('stats').innerHTML = `
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-label">首次</div><div class="stat-value">${first.toFixed(1)}</div></div>
-        <div class="stat-card"><div class="stat-label">最新</div><div class="stat-value">${last.toFixed(1)}</div></div>
-        <div class="stat-card"><div class="stat-label">变化</div><div class="stat-value" style="color:${changeColor}">${changeStr}</div></div>
-        <div class="stat-card"><div class="stat-label">最高</div><div class="stat-value" style="color:var(--green)">${max.toFixed(1)}</div></div>
+        <div class="stat-card"><div class="stat-label">当前视力</div><div class="stat-value">${last.toFixed(1)}</div></div>
+        <div class="stat-card"><div class="stat-label">比开始</div><div class="stat-value" style="color:${changeColor}">${changeStr}</div></div>
+        <div class="stat-card"><div class="stat-label">已练</div><div class="stat-value">${p.practiceDays} 天</div></div>
+        <div class="stat-card"><div class="stat-label">记录</div><div class="stat-value">${p.acuityRecords.length} 次</div></div>
       </div>
-      <div style="margin-top:10px;font-size:0.76rem;color:var(--dim);text-align:center">
-        ${userLabel} · 共 ${sorted.length} 条记录 · ${allXKeys.length} 次检测 · 跨度 ${dayCount} 天
-      </div>`;
+      <div class="stat-footnote">${escapeHtml(userLabel)} · 近 ${dayCount} 天 · 上次练眼：${escapeHtml(latestPracticeText)}</div>`;
   }
 }
 
@@ -1700,7 +2351,7 @@ function importData(e){
             if(idx >= 0) users[idx] = u; else users.push(u);
           });
           data.records.forEach(r => {
-            const imported = { ...r, id: r.id || createRecordId() };
+            const imported = migratePracticeTrackingRecord({ ...r, id: r.id || createRecordId() });
             const key = getRecordMergeKey(imported);
             const idx = records.findIndex(ex => getRecordMergeKey(ex) === key);
             if(idx >= 0) records[idx] = { ...records[idx], ...imported };
